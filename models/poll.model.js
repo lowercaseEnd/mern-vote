@@ -6,7 +6,7 @@ const PollSchema = new mongoose.Schema({
     ref: "User"
   },
   createTime: {
-    type: Date,
+    type: String,
     required: true
   },
   title: {
