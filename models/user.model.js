@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
   deleted: {
     type: Boolean
   },
+  polls: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Poll"
+  }]
 });
 
 module.exports = mongoose.model("User", UserSchema);
