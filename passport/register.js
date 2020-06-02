@@ -1,17 +1,17 @@
-const passport = require("passport");
+// const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/index").User;
 //функция для хеширования пароля
 const hashPassword = async plainText => {
-  const salt = await bcrypt.getSalt();
+  const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(plainText, salt);
   return hashedPassword;
 };
 
-function registration() {
-  passport.use(new LocalStrategy({
+function registration(passport) {
+  passport.use("register", new LocalStrategy({
     session: true,
     passReqToCallback: true
   },
@@ -25,7 +25,7 @@ function registration() {
         username: {
           $regex: new RegExp(`^${username}$`, "i")
         },
-      }, (err, user) => {
+      }, async (err, user) => {
         //не создавать пользователя если ник занят
         if (err) {
           return done(err);
@@ -37,14 +37,16 @@ function registration() {
           });
         }
         console.info(`Creating user: ${username}`);
+        let passwordHash = await hashPassword(password);
         const newUser = new User({
           username,
-          password: hashPassword(password),
+          password: passwordHash,
           polls: [],
           locked: false,
           deleted: false,
           dateCreated: new Date()
         });
+        console.log(newUser);
         newUser.save(err => {
           if (err) {
             console.error(`Error saving user in db: ${err}`);

@@ -31,6 +31,8 @@ app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 
+require("./passport/index")(passport);
+
 app.use("/auth", router.users);
 app.use("/", (req, res) => {
   res.send("Hello");

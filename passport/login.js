@@ -1,10 +1,10 @@
-const passport = require("passport");
+// const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
 const User = require("../models/index").User;
 
-const login = () => {
-  passport.use(new LocalStrategy({
+const login = (passport) => {
+  passport.use("login", new LocalStrategy({
     session: true,
     passReqToCallback: true
   },
