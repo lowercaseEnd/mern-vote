@@ -8,6 +8,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 
 const DB = require("./models/index");
+const router = require("./routes/index");
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -30,6 +31,7 @@ app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/auth", router.users);
 app.use("/", (req, res) => {
   res.send("Hello");
 });
