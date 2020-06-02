@@ -34,6 +34,7 @@ app.use(passport.session());
 require("./passport/index")(passport);
 
 app.use("/auth", router.users);
+app.use("/poll", router.polls);
 app.use("/", (req, res) => {
   res.send("Hello");
 });
