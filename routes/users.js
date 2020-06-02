@@ -122,5 +122,17 @@ router
         });
       })
     })
-  })
+  });
+
+//проверка на авторизацию
+router
+  .route("/isauthenticated")
+  .get((req, res) => {
+    res.type("json").send({
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user ? req.user.username : "",
+      sessionID: req.sessionID
+    });
+  });
+  
 module.exports = router;
