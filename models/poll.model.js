@@ -28,5 +28,16 @@ const PollSchema = new mongoose.Schema({
   }],
   totalVotes: Number
 });
+//получить список всех голосований
+PollSchema.statics.getPolls = function() {
+  return new Promise((resolve, reject) => {
+    this.find((err, docs) => {
+      if(err) {
+        return reject(err);
+      }
+      resolve(docs);
+    })
+  })
+}
 
 module.exports = mongoose.model("Poll", PollSchema);
