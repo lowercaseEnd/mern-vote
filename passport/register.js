@@ -46,7 +46,6 @@ function registration(passport) {
           deleted: false,
           dateCreated: new Date()
         });
-        console.log(newUser);
         newUser.save(err => {
           if (err) {
             console.error(`Error saving user in db: ${err}`);
