@@ -48,6 +48,7 @@ router
     })(req, res, next)
   });
 
+//login
 router
   .route("/login")
   .post((req, res, next) => {
@@ -76,5 +77,20 @@ router
         });
       })
     })(req, res, next)
+  });
+
+//logout
+router
+  .route("/logout")
+  .post((req, res) => {
+    const { username } = req.user;
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+      res.type("json").send({
+        success: true,
+        message: `User ${username} logged out.`
+      });
+      console.info(`User ${username} sessionID: ${req.sessionID} logged out.`);
+    })
   });
 module.exports = router;
