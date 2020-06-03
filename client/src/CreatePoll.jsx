@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button } from "react-bootstrap";
 
 class CreatePollForm extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class CreatePollForm extends React.Component {
       shortName: "",
       options: ["", ""],
     }
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.addOption = this.addOption.bind(this);
   }
   addOption() {
@@ -28,21 +29,21 @@ class CreatePollForm extends React.Component {
       [event.target.name]: event.target.value
     });
   }
-  onSubmit(event) { }
+  handleSubmit(event) { }
   render() {
     const options = this.state.options.map((option, index) => (
       <React.Fragment key={index}>
-        <label>Option {index + 1}</label>
-        <input type="text" value={option} onChange={event => this.handleOption(event, index)} />
+        <Form.Label>Option {index + 1}</Form.Label>
+        <Form.Control type="text" value={option} onChange={event => this.handleOption(event, index)} />
       </React.Fragment>
     ));
     return (
-      <form>
-        <label htmlFor="title">Title</label>
-        <input type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Label htmlFor="title">Title</Form.Label>
+        <Form.Control type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
         {options}
-        <button type="button" onClick={this.addOption}>Add option</button>
-      </form>
+        <Button type="button" onClick={this.addOption}>Add option</Button>
+      </Form>
     );
   }
 }
