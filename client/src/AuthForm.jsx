@@ -22,7 +22,7 @@ class LoginForm extends React.Component {
     event.preventDefault();
     const { username, password } = this.state;
     const data = { username, password };
-    let ret = await auth("login", data);
+    let ret = await auth(this.props.type, data);
     console.log(ret);
     this.setState({
       username: "",
@@ -41,7 +41,7 @@ class LoginForm extends React.Component {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={this.handleChange} />
         </Form.Group>
-        <Button type="submit">Login</Button>
+        <Button type="submit">{this.props.type}</Button>
       </Form>
     );
   }
