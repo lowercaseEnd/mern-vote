@@ -1,7 +1,9 @@
 const router = require("express").Router();
+const { validationResult } = require("express-validator");
 
 const Poll = require("../models/index").Poll;
 const User = require("../models/index").User;
+const validatePoll = require("../validators/index").poll;
 
 //список всех голосований
 router
@@ -94,5 +96,69 @@ router
           })
       })
   });
-  
+
+//создание голосования
+router
+  .route("/create_poll")
+  .post(validatePoll, (req, res, next) => {
+    const errors = validationResult(req);
+    const { title, shortName, options } = req.body;
+    const { sessionID } = req;
+
+    if (!errors.isEmpty()) {
+      const { param, message } = errors.array()[0];
+      return next({ param, message });
+    }
+    if (!req.user) {
+      return next(Error("Must be logged in to add new poll"));
+    }
+    User.findOne({ "_id": req.user._id }, (err, user) => {
+      if (err) {
+        return next(err);
+      }
+      const poll = new Poll({
+        options: options.map((option, index) => ({
+          option,
+          votes: 0
+        })
+        ),
+        createTime: Date.now(),
+        createdBy: user._id,
+        seedColor: Math.floor(Math.random() * 360),
+        shortName: shortName || user.polls.length,
+        title,
+        voters: [
+          {
+            sessionID,
+            dateVoted: Date.now()
+          }
+        ],
+        totalVotes: 0
+      });
+      poll.save(err => {
+        if(err) {
+          return next(err);
+        }
+        User.findOneAndUpdate({
+          _id: user._id
+        },
+        {
+          $push: {
+            polls: poll._id
+          }
+        })
+      },
+        err => err && next(err))
+    })
+    res.type("json").send({
+      success: true,
+      message: `Successfully created a new poll: ${title}`,
+      poll: {
+        shortName: poll.shortName,
+        user: user.username,
+        title: poll.title
+      }
+    })
+  });
+
 module.exports = router;

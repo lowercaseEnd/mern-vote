@@ -17,10 +17,6 @@ const PollSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  question: {
-    type: String,
-    required: true
-  },
   options: [{
     index: Number,
     choice: String,
@@ -30,7 +26,8 @@ const PollSchema = new mongoose.Schema({
     sessionID: String,
     dateVoted: Date
   }],
-  totalVotes: Number
+  totalVotes: Number,
+  seedColor: Number
 });
 //получить список всех голосований
 PollSchema.statics.getPolls = function() {
