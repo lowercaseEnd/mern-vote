@@ -9,8 +9,11 @@ class Header extends React.Component {
       <Navbar.Toggle />
       <Navbar.Collapse >
         <Nav className="mr-auto">
-          <Nav.Link  eventKey="1" >Features</Nav.Link>
-          <Nav.Link  eventKey="2"  >Pricing</Nav.Link>
+          <Nav.Link>Main</Nav.Link>
+          <Nav.Link>Login</Nav.Link>
+          <Nav.Link>Register</Nav.Link>
+          <Nav.Link>My polls</Nav.Link>
+          <Nav.Link>My profile</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
