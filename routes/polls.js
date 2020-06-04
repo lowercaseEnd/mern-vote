@@ -106,8 +106,8 @@ router
     const { sessionID } = req;
 
     if (!errors.isEmpty()) {
-      const { param, message } = errors.array()[0];
-      return next({ param, message });
+      const { param, msg } = errors.array()[0];
+      return next({ param, msg });
     }
     if (!req.user) {
       return next(Error("Must be logged in to add new poll"));

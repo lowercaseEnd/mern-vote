@@ -10,14 +10,13 @@ const validatePoll = [
     .trim()
     .isLength({ max: 16 })
     .withMessage("Short name should not be bigger than 16 chars"),
-  check("choices")
-    .trim()
+  check("options")
     .custom(array => Array.from(new Set(array)).length >= 2)
-    .withMessage("Must include at least 2 unique choices"),
-  check("choices.*")
+    .withMessage("Must include at least 2 unique options"),
+  check("options.*")
     .trim()
     .isLength({ min: 1 })
-    .withMessage("Choices cannot be blank")
+    .withMessage("Options cannot be blank")
     .escape()
 ];
 

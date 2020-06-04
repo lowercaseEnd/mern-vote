@@ -11,6 +11,8 @@ class CreatePollForm extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.addOption = this.addOption.bind(this);
+    this.handleOption = this.handleOption.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   addOption() {
     this.setState({
@@ -29,12 +31,29 @@ class CreatePollForm extends React.Component {
       [event.target.name]: event.target.value
     });
   }
-  handleSubmit(event) { }
+  async handleSubmit(event) {
+    event.preventDefault();
+    const { title, shortName, options } = this.state;
+    const data = {title, shortName, options};
+    console.log(options);
+    console.log(data);
+    console.log(JSON.stringify(data));
+    let first = await fetch("http://localhost:4000/poll/create_poll", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    let ans = await first.json();
+    console.log(ans);
+    console.log(JSON.stringify(ans));
+  }
   render() {
     const options = this.state.options.map((option, index) => (
       <React.Fragment key={index}>
         <Form.Label>Option {index + 1}</Form.Label>
-        <Form.Control type="text" value={option} onChange={event => this.handleOption(event, index)} />
+        <Form.Control name="options" type="text" value={option} onChange={event => this.handleOption(event, index)} />
       </React.Fragment>
     ));
     return (
@@ -43,6 +62,7 @@ class CreatePollForm extends React.Component {
         <Form.Control type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
         {options}
         <Button type="button" onClick={this.addOption}>Add option</Button>
+        <Button type="submit">Submit</Button>
       </Form>
     );
   }
