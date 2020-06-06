@@ -1,7 +1,12 @@
 import React from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
 import { Form, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 
 import { auth } from "./api/fetch";
+
+// axios.defaults.withCredentials = true;
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -22,12 +27,35 @@ class LoginForm extends React.Component {
     event.preventDefault();
     const { username, password } = this.state;
     const data = { username, password };
-    let ret = await auth(this.props.type, data);
-    console.log(ret);
-    this.setState({
-      username: "",
-      password: ""
-    });
+    // let ret = await auth(this.props.type, data);
+    let response = await fetch(`http://localhost:4000/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Cookie": document.cookie
+        },
+        cache: "default",
+        credentials: "include",
+        body: JSON.stringify(data)
+      });
+    // let response = await axios.post("http://127.0.0.1:4000/auth/login", {
+    // username, password
+    // });
+    console.log(response);
+    console.log(document.cookie)
+    // if(ret.success) {
+    //   this.props.dispatch({
+    //     type: "SET_CURRENT_USER",
+    //     payload: {
+    //       user: ret.username
+    //     }
+    //   });
+    // }
+    // this.setState({
+    //   username: "",
+    //   password: ""
+    // });
+    // Cookies.set("connect.sid", document.cookie["connect.sid"]);
   }
   render() {
     const { username, password } = this.state;
@@ -47,4 +75,17 @@ class LoginForm extends React.Component {
   }
 }
 
-export default LoginForm;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    loggedIn: state.loggedIn
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

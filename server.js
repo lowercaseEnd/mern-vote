@@ -6,6 +6,8 @@ const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const logger = require("morgan");
+
 
 const DB = require("./models/index");
 const router = require("./routes/index");
@@ -13,18 +15,21 @@ const router = require("./routes/index");
 const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
-
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(logger("dev"));
 //инициализация паспорта
 const sessionOptions = {
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false
+    maxAge: 1000 * 60 * 60 * 24,
+    secure: false,
+    httpOnly: false
   },
   store: new MongoStore({
-    mongooseConnection: DB.DB
+    mongooseConnection: DB.DB,
+    collection: "sessions"
   })
 };
 app.use(session(sessionOptions));
@@ -33,11 +38,24 @@ app.use(passport.session());
 
 require("./passport/index")(passport);
 
+// app.options('*', (req, res) => {
+//   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.set("Access-Control-Allow-Headers", "Content-Type");
+//   res.set("Access-Control-Allow-Credentials", true);
+//   res.send('ok');
+// });
+// let allowCrossDomain = function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', "*");
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type');
+//   next();
+// };
+
+// app.use(allowCrossDomain);
+
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
-app.use("/", (req, res) => {
-  res.send("Hello");
-});
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

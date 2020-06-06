@@ -3,6 +3,7 @@ const passport = require("passport");
 
 const User = require("../models/index").User;
 
+
 //получить всех пользователей, удалив в ответе пароли
 router
   .route("/users")
@@ -34,7 +35,7 @@ router
         });
       }
       //создать сессию с новым пользователем
-      req.login(user, err => {
+      req.logIn(user, err => {
         if (err) {
           return next(err);
         }
@@ -44,6 +45,7 @@ router
           success: true,
           username: user.username
         });
+        console.log(`assign: ${req.user}`);
       })
     })(req, res, next)
   });
@@ -58,14 +60,15 @@ router
         return next(err);
       }
       if (!user) {
-        return res.type("json").send({
+        res.type("json").send({
           message,
           success: false,
           username: user.username
         });
       }
+      console.log(`User: ${JSON.stringify(user)}`);
       //создать сессию с пользователем
-      req.login(user, err => {
+      req.logIn(user, err => {
         if (err) {
           return next(err);
         }
@@ -75,6 +78,7 @@ router
           success: true,
           username: user.username
         });
+        console.log(`assign: ${req.user}`);
       })
     })(req, res, next)
   });
@@ -134,5 +138,5 @@ router
       sessionID: req.sessionID
     });
   });
-  
+
 module.exports = router;

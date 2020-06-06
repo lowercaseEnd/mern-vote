@@ -41,8 +41,11 @@ class CreatePollForm extends React.Component {
     let first = await fetch("http://localhost:4000/poll/create_poll", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json",
       },
+      cache: "default",
+      credentials: "include",
       body: JSON.stringify(data)
     });
     let ans = await first.json();
@@ -60,6 +63,8 @@ class CreatePollForm extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Label htmlFor="title">Title</Form.Label>
         <Form.Control type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
+        <Form.Label htmlFor="shortName">Short Name</Form.Label>
+        <Form.Control type="text" id="shortName" name="shortName" value={this.state.shortName} onChange={this.handleChange} />
         {options}
         <Button type="button" onClick={this.addOption}>Add option</Button>
         <Button type="submit">Submit</Button>

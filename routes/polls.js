@@ -5,6 +5,7 @@ const Poll = require("../models/index").Poll;
 const User = require("../models/index").User;
 const validatePoll = require("../validators/index").poll;
 
+
 //список всех голосований
 router
   .route("/polls")
@@ -104,7 +105,8 @@ router
     const errors = validationResult(req);
     const { title, shortName, options } = req.body;
     const { sessionID } = req;
-
+    console.log("User " + req.user);
+    console.log("Ses " + JSON.stringify(req.session));
     if (!errors.isEmpty()) {
       const { param, msg } = errors.array()[0];
       return next({ param, msg });
@@ -147,18 +149,19 @@ router
             polls: poll._id
           }
         })
+        res.type("json").send({
+          success: true,
+          message: `Successfully created a new poll: ${title}`,
+          poll: {
+            shortName: poll.shortName,
+            user: user.username,
+            title: poll.title
+          }
+        })
       },
         err => err && next(err))
     })
-    res.type("json").send({
-      success: true,
-      message: `Successfully created a new poll: ${title}`,
-      poll: {
-        shortName: poll.shortName,
-        user: user.username,
-        title: poll.title
-      }
-    })
+    
   });
 
 module.exports = router;
