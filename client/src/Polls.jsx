@@ -1,35 +1,34 @@
 import React from "react";
 import {} from "react-bootstrap";
+import { connect } from "react-redux";
 
 class Polls extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      polls: []
-    };
-  }
-  async componentDidMount() {
-    let res = await fetch("http:/localhost:4000/poll/polls", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    let ans = await res.json();
-    this.setState({
-      polls: ans
-    });
   }
   render() {
-    const temp = this.state.polls.map(poll => (
-    <li>{poll}</li>
-    ))
     return (
       <ul>
-      {temp}
+        {this.props.posts.map(post => {
+          return (<li key={post._id}>
+            {post._id}
+          </li>)
+        })}
       </ul>
     );
   }
 }
 
-export default Polls;
+const mapStateToProps = state => {
+  return {
+    posts: state.posts,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Polls);

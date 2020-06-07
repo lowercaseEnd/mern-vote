@@ -12,22 +12,23 @@ import Polls from "./Polls";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: "",
-      loggedIn: false
-    };
+
   }
 
+  async componentDidMount() {
+    let initPosts = await fetch(`http://localhost:4000/poll/polls`);
+    let response = await initPosts.json();
+    this.props.dispatch({
+      type: "LOAD_POSTS",
+      payload: response
+    });
+  }
+  
   render() {
-    const {user, posts} = this.props;
+    const {username, posts} = this.props;
     return (
       <div className="App">
-        <p>{user}</p>
-        <ul>
-          {posts.map(post => (
-            <li key={post.id}>{post.title}</li>
-          ))}
-        </ul>
+        <p>{username}</p>
         <Header />
         <AuthForm authType={"login"} />
         <AuthForm authType={"register"} />
@@ -43,8 +44,14 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     posts: state.posts,
-    user: state.user
+    username: state.username
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch
   };
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
