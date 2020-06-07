@@ -1,10 +1,7 @@
 import React from "react";
-import { } from "react-bootstrap";
 import {
-  BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import AuthForm from "./AuthForm";
