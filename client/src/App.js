@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
-import logo from './logo.svg';
-import './App.css';
-import Header from "./Header";
-import AuthForm from "./AuthForm";
-import CreatePollForm from "./CreatePoll";
-import Polls from "./Polls";
+import { BrowserRouter as Router } from "react-router-dom";
 
+import './App.css';
+import RouteViews from "./RouteViews";
+import Header from "./Header";
 
 
 class App extends React.Component {
@@ -23,17 +21,17 @@ class App extends React.Component {
       payload: response
     });
   }
-  
+
   render() {
-    const {username, posts} = this.props;
+    const { username, posts } = this.props;
     return (
       <div className="App">
         <p>{username}</p>
-        <Header />
-        <AuthForm authType={"login"} />
-        <AuthForm authType={"register"} />
-        <CreatePollForm />
-        <Polls />
+        <Router>
+          <Header />
+          <RouteViews />
+        </Router>
+
 
       </div>
     );
