@@ -2,14 +2,12 @@ import { createStore } from "redux";
 
 const initialState = {
   posts: [{ id: 1, title: "Test Post" }],
-  signUpModal: {
-    open: false
-  },
-  user: "",
+  username: "",
   loggedIn: false
 };
 
 const reducer = (state = initialState, action) => {
+  console.log(`Action: ${JSON.stringify(action)}`);
   if (action.type === "ADD_POST") {
     return Object.assign({}, state, {
       posts: state.posts.concat(action.payload)
@@ -17,8 +15,8 @@ const reducer = (state = initialState, action) => {
   }
   if (action.type === "SET_CURRENT_USER") {
     return Object.assign({}, state, {
-      user: action.payload.user,
-      loggedIn: !!action.payload.user
+      username: action.payload.username,
+      loggedIn: !!action.payload.username
     })
   }
   return state;

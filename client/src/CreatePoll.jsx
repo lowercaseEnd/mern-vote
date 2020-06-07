@@ -35,9 +35,6 @@ class CreatePollForm extends React.Component {
     event.preventDefault();
     const { title, shortName, options } = this.state;
     const data = {title, shortName, options};
-    console.log(options);
-    console.log(data);
-    console.log(JSON.stringify(data));
     let first = await fetch("http://localhost:4000/poll/create_poll", {
       method: "POST",
       headers: {
@@ -49,8 +46,6 @@ class CreatePollForm extends React.Component {
       body: JSON.stringify(data)
     });
     let ans = await first.json();
-    console.log(ans);
-    console.log(JSON.stringify(ans));
   }
   render() {
     const options = this.state.options.map((option, index) => (

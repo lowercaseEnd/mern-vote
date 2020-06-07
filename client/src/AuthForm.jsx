@@ -27,8 +27,7 @@ class LoginForm extends React.Component {
     event.preventDefault();
     const { username, password } = this.state;
     const data = { username, password };
-    // let ret = await auth(this.props.type, data);
-    let response = await fetch(`http://localhost:4000/auth/login`, {
+    let response = await fetch(`http://localhost:4000/auth/${this.props.authType}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,24 +37,15 @@ class LoginForm extends React.Component {
         credentials: "include",
         body: JSON.stringify(data)
       });
-    // let response = await axios.post("http://127.0.0.1:4000/auth/login", {
-    // username, password
-    // });
-    console.log(response);
-    console.log(document.cookie)
-    // if(ret.success) {
-    //   this.props.dispatch({
-    //     type: "SET_CURRENT_USER",
-    //     payload: {
-    //       user: ret.username
-    //     }
-    //   });
-    // }
-    // this.setState({
-    //   username: "",
-    //   password: ""
-    // });
-    // Cookies.set("connect.sid", document.cookie["connect.sid"]);
+    let result = await response.json();
+    if(result.success) {
+      this.props.dispatch({
+        type: "SET_CURRENT_USER",
+        payload: {
+          username: result.username
+        }
+      });
+    }
   }
   render() {
     const { username, password } = this.state;
@@ -69,7 +59,7 @@ class LoginForm extends React.Component {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={this.handleChange} />
         </Form.Group>
-        <Button type="submit">{this.props.type}</Button>
+        <Button type="submit">{this.props.authType}</Button>
       </Form>
     );
   }
@@ -77,8 +67,7 @@ class LoginForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    loggedIn: state.loggedIn
+    username: state.username
   }
 };
 
