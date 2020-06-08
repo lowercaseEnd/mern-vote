@@ -7,6 +7,7 @@ import {
 import AuthForm from "./AuthForm";
 import Polls from "./Polls";
 import CreatePoll from "./CreatePoll";
+import PollPage from "./PollPage";
 
 const Routes = () => {
   return (
@@ -19,6 +20,9 @@ const Routes = () => {
       </Route>
       <Route path="/createpoll">
         <CreatePoll />
+      </Route>
+      <Route path="/poll/:id">
+        <PollPage />
       </Route>
       <Route path="/">
         <Polls />

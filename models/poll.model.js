@@ -19,7 +19,7 @@ const PollSchema = new mongoose.Schema({
   },
   options: [{
     index: Number,
-    choice: String,
+    option: String,
     votes: Number
   }],
   voters: [{

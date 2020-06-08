@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 
 const initialState = {
-  polls: [{id: 1, title: "test"}],
+  polls: [],
   username: "",
   loggedIn: false
 };

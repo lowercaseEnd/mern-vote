@@ -13,15 +13,22 @@ class App extends React.Component {
 
   }
 
-  async componentDidMount() {
-    let initPosts = await fetch(`http://localhost:4000/poll/polls`);
-    let response = await initPosts.json();
-    this.props.dispatch({
-      type: "LOAD_POSTS",
-      payload: response
-    });
+  componentDidMount() {
+    fetch(`http://localhost:4000/poll/polls`)
+      .then(response => response.json())
+      .then(res => this.props.dispatch({
+        type: "LOAD_POSTS",
+        payload: res
+      }));
   }
-
+  componentDidUpdate() {
+    fetch(`http://localhost:4000/poll/polls`)
+      .then(response => response.json())
+      .then(res => this.props.dispatch({
+        type: "LOAD_POSTS",
+        payload: res
+      }));
+  }
   render() {
     const { username, posts } = this.props;
     return (

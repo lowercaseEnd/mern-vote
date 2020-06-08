@@ -10,7 +10,7 @@ function PollItem(props) {
   }
 
   return (
-    <ListGroupItem active onClick={() => handleClick(props.poll._id)}>
+    <ListGroupItem active onClick={() => handleClick(props.poll._id)} >
       {props.poll._id}
     </ListGroupItem>
   );

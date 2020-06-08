@@ -104,6 +104,12 @@ router
   .post(validatePoll, (req, res, next) => {
     const errors = validationResult(req);
     const { title, shortName, options } = req.body;
+    console.log(options)
+    let test = options.map((option, index) => ({
+      option,
+      votes: 0
+    }));
+    console.log(test)
     const { sessionID } = req;
     console.log("User " + req.user);
     console.log("Ses " + JSON.stringify(req.session));
@@ -119,11 +125,7 @@ router
         return next(err);
       }
       const poll = new Poll({
-        options: options.map((option, index) => ({
-          option,
-          votes: 0
-        })
-        ),
+        options: test,
         createTime: Date.now(),
         createdBy: user._id,
         seedColor: Math.floor(Math.random() * 360),
@@ -137,6 +139,7 @@ router
         ],
         totalVotes: 0
       });
+      console.log(poll)
       poll.save(err => {
         if(err) {
           return next(err);
