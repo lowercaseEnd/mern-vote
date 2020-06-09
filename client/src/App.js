@@ -17,7 +17,7 @@ class App extends React.Component {
     fetch(`http://localhost:4000/poll/polls`)
       .then(response => response.json())
       .then(res => this.props.dispatch({
-        type: "LOAD_POSTS",
+        type: "LOAD_POLLS",
         payload: res
       }));
   }
@@ -25,7 +25,7 @@ class App extends React.Component {
     fetch(`http://localhost:4000/poll/polls`)
       .then(response => response.json())
       .then(res => this.props.dispatch({
-        type: "LOAD_POSTS",
+        type: "LOAD_POLLS",
         payload: res
       }));
   }

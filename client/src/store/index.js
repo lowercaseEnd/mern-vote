@@ -1,4 +1,5 @@
 import { createStore } from "redux";
+import rootReducer from "./reducers/index";
 
 const initialState = {
   polls: [],
@@ -7,18 +8,13 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  if (action.type === "ADD_POST") {
-    return Object.assign({}, state, {
-      polls: state.polls.concat(action.payload)
-    });
-  }
   if (action.type === "SET_CURRENT_USER") {
     return Object.assign({}, state, {
       username: action.payload.username,
       loggedIn: !!action.payload.username
     })
   }
-  if (action.type === "LOAD_POSTS") {
+  if (action.type === "LOAD_POLLS") {
     return {
       ...state,
       polls: state.polls.concat(action.payload)
@@ -36,6 +32,7 @@ const reducer = (state = initialState, action) => {
 
 const store = createStore(
   reducer,
+  initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

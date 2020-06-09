@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import { auth } from "./api/fetch";
 
-// axios.defaults.withCredentials = true;
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -29,7 +28,6 @@ class LoginForm extends React.Component {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Cookie": document.cookie
         },
         cache: "default",
         credentials: "include",
@@ -65,7 +63,8 @@ class LoginForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    username: state.username
+    username: state.username,
+    loggedId: state.loggedId
   }
 };
 
