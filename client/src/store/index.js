@@ -24,6 +24,13 @@ const reducer = (state = initialState, action) => {
       polls: state.polls.concat(action.payload)
     };
   }
+  if (action.type === "LOG_OUT") {
+    return {
+      ...state,
+      loggedIn: false,
+      username: ""
+    };
+  }
   return state;
 }
 
