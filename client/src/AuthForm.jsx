@@ -35,6 +35,8 @@ class LoginForm extends React.Component {
       });
     let result = await response.json();
     if(result.success) {
+      localStorage.setItem("user", result.username);
+      localStorage.setItem("session", document.cookie);
       this.props.dispatch({
         type: "SET_CURRENT_USER",
         payload: {

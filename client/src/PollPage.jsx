@@ -10,7 +10,6 @@ function PollPage(props) {
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
   } else {
-
     let currentPoll = props.polls.filter(item => item._id === id)[0];
     if(currentPoll === undefined) {
       return <h1>No poll found</h1>
@@ -49,6 +48,12 @@ function PollPage(props) {
           "id": currentPoll._id
         })
       });
+      fetch(`http://localhost:4000/poll/polls`)
+      .then(response => response.json())
+      .then(res => props.dispatch({
+        type: "LOAD_POLLS",
+        payload: res
+      }));
     }
     return (
       <div>

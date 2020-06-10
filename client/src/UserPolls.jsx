@@ -9,11 +9,11 @@ class UserPolls extends React.Component {
       userPolls: []
     };
   }
-  
+
   async componentDidMount() {
-    if(this.props.username) {
+    if (this.props.username) {
       let res = await fetch(`http://localhost:4000/poll/${this.props.username}/polls`);
-      let ans = res.json();
+      let ans = await res.json();
       console.log(ans);
       this.setState({
         userPolls: ans.polls
@@ -21,11 +21,18 @@ class UserPolls extends React.Component {
     }
   }
   render() {
-    return (
-      <ListGroup>
-        <ListGroup.Item></ListGroup.Item>
-      </ListGroup>
-    )
+    const { polls } = this.state.userPolls;
+    if (polls === undefined) {
+      return <h1>Polls not found</h1>
+    } else {
+      const display = polls.map(poll => (<p>{poll.title}</p>))
+      return (
+        <ListGroup>
+          <ListGroup.Item>{display}</ListGroup.Item>
+        </ListGroup>
+      )
+    }
+
   }
 }
 

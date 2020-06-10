@@ -24,6 +24,7 @@ class Header extends React.Component {
     this.props.dispatch({
       type: "LOG_OUT"
     });
+    localStorage.clear();
   }
 
   render() {

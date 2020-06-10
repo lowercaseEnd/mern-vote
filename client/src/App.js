@@ -20,6 +20,15 @@ class App extends React.Component {
         type: "LOAD_POLLS",
         payload: res
       }));
+    if (localStorage.getItem("user")) {
+      document.cookie = localStorage.getItem("session");
+      this.props.dispatch({
+        type: "SET_CURRENT_USER",
+        payload: {
+          username: localStorage.getItem("user")
+        }
+      });
+    }
   }
   componentDidUpdate() {
     fetch(`http://localhost:4000/poll/polls`)
