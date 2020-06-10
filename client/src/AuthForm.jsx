@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { auth } from "./api/fetch";
+import { Redirect } from "react-router-dom";
 
 
 class LoginForm extends React.Component {
@@ -25,16 +26,16 @@ class LoginForm extends React.Component {
     const { username, password } = this.state;
     const data = { username, password };
     let response = await fetch(`http://localhost:4000/auth/${this.props.authType}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "default",
-        credentials: "include",
-        body: JSON.stringify(data)
-      });
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "default",
+      credentials: "include",
+      body: JSON.stringify(data)
+    });
     let result = await response.json();
-    if(result.success) {
+    if (result.success) {
       localStorage.setItem("user", result.username);
       localStorage.setItem("session", document.cookie);
       this.props.dispatch({
@@ -46,6 +47,9 @@ class LoginForm extends React.Component {
     }
   }
   render() {
+    if (this.props.loggedIn) {
+      return <Redirect to="/" />
+    }
     const { username, password } = this.state;
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -66,7 +70,7 @@ class LoginForm extends React.Component {
 const mapStateToProps = state => {
   return {
     username: state.username,
-    loggedId: state.loggedId
+    loggedIn: state.loggedIn
   }
 };
 
