@@ -11,7 +11,7 @@ function PollItem(props) {
 
   return (
     <ListGroupItem action onClick={() => handleClick(props.poll._id)} >
-      {props.poll._id}
+      {props.poll.title}
     </ListGroupItem>
   );
 }

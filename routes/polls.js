@@ -72,7 +72,8 @@ router
 router
   .route("/delete")
   .delete((req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.body;
+    console.log(req.body);
     db.Poll.findOne({ _id: id })
       .populate("createdBy", "username")
       .exec((err, poll) => {
