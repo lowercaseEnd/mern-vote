@@ -22,8 +22,8 @@ router
 router
   .route("/:user/polls")
   .get((req, res, next) => {
-    console.log(db.User.findOne({username: req.params.user}).populate("polls"))
-    db.User.findOne({username: req.params.user})
+    console.log(db.User.findOne({ username: req.params.user }).populate("polls"))
+    db.User.findOne({ username: req.params.user })
       .populate("polls")
       .exec((err, user) => {
         if (err) {
@@ -165,4 +165,91 @@ router
 
   });
 
+//проголосовать
+router
+  .route("/:user/polls/:poll")
+  .post((req, res, next) => {
+    const { body, params, sessionID } = req;
+    const { selectedOption } = body;
+    const recentVote = 60 * 1000;//минута
+    const updateComplete = (err, doc, timeRemaining = recentVote) => {
+      res.type("json").send({
+        success: !err,
+        poll: doc,
+        error: {
+          message: err ? `Time remaining: ${timeRemaining}ms` : "No Error",
+          timeRemaining
+        }
+      });
+    }
+    db.Poll.find({ "_id": params.poll })
+      .populate("createdBy", "username")
+      .exec((err, polls) => {
+        const poll = polls.filter(poll =>
+          poll.createdBy.username === params.user)[0];
+        if (err) {
+          return next(err);
+        }
+        if (!poll) {
+          return next(Error("Invalid poll name"));
+        }
+        console.log(poll.createdBy.username, params.user)
+        if (poll.createdBy.username !== params.user) {
+          return next(Error("Invalid poll title or username"));
+        }
+
+        const recentVoters = poll.voters.filter(vote => {
+          return Date.now() - vote.dateVoted < recentVote
+        });
+        const votersIds = recentVoters.map(({
+          sessionID
+        }) => sessionID);
+        const voterIndex = votersIds.indexOf(req.sessionID);
+
+        if (voterIndex !== -1) {
+          const timeRemaining = Math.floor(
+            (recentVote - (Date.now() - poll.voters[voterIndex].dateVoted))
+          );
+          return updateComplete(true, poll, timeRemaining);
+        } else {
+          recentVoters.push({
+            sessionID,
+            dateVoted: Date.now()
+          });
+        }
+
+        const options = JSON.parse(JSON.stringify(poll.options));
+        console.log(poll.options)
+        console.log(options)
+        const optionNames = options.map(({ option }) => option);
+        const optionIndex = optionNames.indexOf(selectedOption);
+        options[optionIndex].votes++;
+
+        db.Poll.findByIdAndUpdate(
+          poll._id,
+          {
+            $set: {
+              "options": options,
+              "voters": recentVoters
+            },
+            $inc: {
+              totalVotes: 1
+            }
+          },
+          {
+            new: true
+          }
+        ).exec((err, doc) => {
+          if (err) {
+            return next(err);
+          }
+          if (!doc) {
+            return next(Error("Poll was not found!"));
+          }
+          updateComplete(false, doc);
+        });
+      });
+
+
+  });
 module.exports = router;

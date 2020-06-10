@@ -1,26 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Form, Button } from "react-bootstrap";
 
 function PollPage(props) {
   const { id } = useParams();
-  // const [currentPoll, setPoll] = useState([]);
+
+  //пока данные не прогрузились показывать надпись
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
   } else {
+
     let currentPoll = props.polls.filter(item => item._id === id)[0];
-    // console.log(props.polls);
-    let options = currentPoll.options.map(option => {
-      return (<div>
-        <p>ID: {option._id}</p>
-        <p>Option: {option.option}</p>
+    let options = currentPoll.options.map((option, index) => {
+      return (<>
+        <Form.Check type="radio" id={`radio${index + 1}`} name="radioOption" onChange={() => { handleChange(option.option) }} inline />
+        <Form.Label htmlFor={`radio${index + 1}`}>{option.option}</Form.Label>
         <p>Votes: {option.votes}</p>
-      </div>)
+      </>)
     });
+    async function handleChange(option) {
+      await fetch(`http://localhost:4000/poll/${props.username}/polls/${id}`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        cache: "default",
+        credentials: "include",
+        body: JSON.stringify({
+          "selectedOption": option
+        })
+      });
+    }
+    async function handleSubmit(event) {
+      event.preventDefault();
+      console.log(event.target.name)
+      console.log(event.target.value)
+      let data = {};
+
+    }
     return (
       <div>
-        <ListGroup>
+        <ListGroup onSubmit={handleSubmit}>
           <ListGroup.Item>
             {currentPoll._id}
           </ListGroup.Item>
@@ -30,6 +52,7 @@ function PollPage(props) {
           <ListGroup.Item>
             {options}
           </ListGroup.Item>
+          <Button type="submit">Vote</Button>
         </ListGroup>
 
       </div>
@@ -43,6 +66,7 @@ function PollPage(props) {
 const mapStateToProps = state => {
   return {
     polls: state.polls,
+    username: state.username
   }
 }
 
