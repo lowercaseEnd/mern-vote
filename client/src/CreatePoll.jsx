@@ -1,5 +1,7 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+
 
 class CreatePollForm extends React.Component {
   constructor(props) {
@@ -34,7 +36,7 @@ class CreatePollForm extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { title, shortName, options } = this.state;
-    const data = {title, shortName, options};
+    const data = { title, shortName, options };
     let first = await fetch("http://localhost:4000/poll/create_poll", {
       method: "POST",
       headers: {
@@ -46,6 +48,15 @@ class CreatePollForm extends React.Component {
       body: JSON.stringify(data)
     });
     let ans = await first.json();
+    console.log(ans);
+    if (ans.success) {
+      fetch(`http://localhost:4000/poll/polls`)
+      .then(response => response.json())
+      .then(res => this.props.dispatch({
+        type: "LOAD_POLLS",
+        payload: res
+      }));
+    }
   }
   render() {
     const options = this.state.options.map((option, index) => (
@@ -68,4 +79,10 @@ class CreatePollForm extends React.Component {
   }
 }
 
-export default CreatePollForm;
+const mapActionToProps = dispatch => {
+  return {
+    dispatch
+  };
+};
+
+export default connect(null, mapActionToProps)(CreatePollForm);

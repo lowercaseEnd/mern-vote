@@ -17,7 +17,7 @@ const login = (passport) => {
           $regex: new RegExp(`^${username}$`, "i")
         },
       },
-        (err, user) => {
+        async (err, user) => {
           //если имя не найдено выйти из функции
           if (err) {
             return done(err);
@@ -32,8 +32,8 @@ const login = (passport) => {
               message: "Account was deleted"
             });
           }
-          const isMatch = user.comparePasswords(password);
-
+          const isMatch = await user.comparePasswords(password);
+          
           if(!isMatch) {
             return done(null, false, {
               message: "Incorrect password"

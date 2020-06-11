@@ -11,7 +11,8 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      error: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,28 +24,35 @@ class LoginForm extends React.Component {
   }
   async handleSubmit(event) {
     event.preventDefault();
-    const { username, password } = this.state;
-    const data = { username, password };
-    let response = await fetch(`http://localhost:4000/auth/${this.props.authType}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "default",
-      credentials: "include",
-      body: JSON.stringify(data)
-    });
-    let result = await response.json();
-    if (result.success) {
-      localStorage.setItem("user", result.username);
-      localStorage.setItem("session", document.cookie);
-      this.props.dispatch({
-        type: "SET_CURRENT_USER",
-        payload: {
-          username: result.username
-        }
+    try {
+      const { username, password } = this.state;
+      const data = { username, password };
+      let response = await fetch(`http://localhost:4000/auth/${this.props.authType}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "default",
+        credentials: "include",
+        body: JSON.stringify(data)
+      });
+      let result = await response.json();
+      if (result.success) {
+        localStorage.setItem("user", result.username);
+        localStorage.setItem("session", document.cookie);
+        this.props.dispatch({
+          type: "SET_CURRENT_USER",
+          payload: {
+            username: result.username
+          }
+        });
+      }
+    } catch (err) {
+      this.setState({
+        error: "Incorrect username and/or password"
       });
     }
+
   }
   render() {
     if (this.props.loggedIn) {
@@ -53,6 +61,7 @@ class LoginForm extends React.Component {
     const { username, password } = this.state;
     return (
       <Form onSubmit={this.handleSubmit}>
+        {this.state.error && <p>{this.state.error}</p>}
         <Form.Group>
           <Form.Label>Username</Form.Label>
           <Form.Control type="text" placeholder="Enter username" name="username" value={username} onChange={this.handleChange} />

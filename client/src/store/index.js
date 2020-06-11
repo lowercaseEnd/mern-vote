@@ -20,6 +20,12 @@ const reducer = (state = initialState, action) => {
       polls: action.payload
     };
   }
+  if (action.type === "ADD_VOTE") {
+    return {
+      ...state,
+      polls: state.polls.concat(state.polls, action.payload)
+    }
+  }
   if (action.type === "LOG_OUT") {
     return {
       ...state,

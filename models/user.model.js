@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
 });
 //сравнение введёного пользователем пароля с паролем в бд
 UserSchema.methods.comparePasswords = async function (password) {
-  return bcrypt.compare(password, this.password);
+  return await bcrypt.compare(password, this.password);
 };
 //получение списка всех пользователей
 UserSchema.statics.getUsers = function() {
