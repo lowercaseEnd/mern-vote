@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
   if (action.type === "LOAD_POLLS") {
     return {
       ...state,
-      polls: state.polls.concat(action.payload)
+      polls: action.payload
     };
   }
   if (action.type === "LOG_OUT") {

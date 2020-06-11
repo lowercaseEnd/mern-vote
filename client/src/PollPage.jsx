@@ -5,13 +5,16 @@ import { ListGroup, Form, Button } from "react-bootstrap";
 
 function PollPage(props) {
   const { id } = useParams();
-
+  useEffect(() => {
+    console.log('test')
+  }, props.polls);
   //пока данные не прогрузились показывать надпись
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
   } else {
+
     let currentPoll = props.polls.filter(item => item._id === id)[0];
-    if(currentPoll === undefined) {
+    if (currentPoll === undefined) {
       return <h1>No poll found</h1>
     }
     let options = currentPoll.options.map((option, index) => {
@@ -49,11 +52,11 @@ function PollPage(props) {
         })
       });
       fetch(`http://localhost:4000/poll/polls`)
-      .then(response => response.json())
-      .then(res => props.dispatch({
-        type: "LOAD_POLLS",
-        payload: res
-      }));
+        .then(response => response.json())
+        .then(res => props.dispatch({
+          type: "LOAD_POLLS",
+          payload: res
+        }));
     }
     return (
       <div>

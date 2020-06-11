@@ -30,19 +30,11 @@ class App extends React.Component {
       });
     }
   }
-  componentDidUpdate() {
-    fetch(`http://localhost:4000/poll/polls`)
-      .then(response => response.json())
-      .then(res => this.props.dispatch({
-        type: "LOAD_POLLS",
-        payload: res
-      }));
-  }
+
   render() {
     const { username, posts } = this.props;
     return (
       <div className="App">
-        <p>{username}</p>
         <Router>
           <Header />
           <RouteViews />

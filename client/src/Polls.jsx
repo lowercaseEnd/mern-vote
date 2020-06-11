@@ -1,27 +1,23 @@
 import React from "react";
 import { ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory, Route } from "react-router-dom";
 
 import PollItem from "./PollItem";
 
-
-class Polls extends React.Component {
-  constructor(props) {
-    super(props);
+function Polls(props) {
+  console.log(props.polls)
+  const pollList = props.polls.map((poll, index) => {
+    console.log(poll, index);
+    return <PollItem key={poll._id} poll={poll} />
   }
-
-  render() {
-    return (
-      <ListGroup variant="flush">
-        {this.props.polls.map(poll => {
-          return (<PollItem key={poll._id} poll={poll} />
-          )
-        })}
-      </ListGroup>
-    );
-  }
+  )
+  return (
+    <ListGroup variant="flush">
+      {pollList}
+    </ListGroup>
+  );
 }
+
 
 const mapStateToProps = state => {
   return {

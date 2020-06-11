@@ -2,8 +2,6 @@ const router = require("express").Router();
 const { validationResult } = require("express-validator");
 
 const db = require("../models/index");
-const Poll = require("../models/index").Poll;
-const User = require("../models/index").User;
 const validatePoll = require("../validators/index").poll;
 
 
@@ -86,7 +84,7 @@ router
         if (req.user.username !== poll.createdBy.username) {
           return next(Error("Only creator may delete a poll"));
         }
-        db.Poll.remove({ _id: poll })
+        db.Poll.deleteOne({ _id: poll })
           .exec(err => {
             if (err) {
               return next(err);
@@ -224,7 +222,11 @@ router
         console.log(options)
         const optionNames = options.map(({ option }) => option);
         const optionIndex = optionNames.indexOf(selectedOption);
-        options[optionIndex].votes++;
+        if(optionIndex !== -1) {
+          options[optionIndex].votes++;
+        } else {
+          return next(Error("No such option"));
+        }
 
         db.Poll.findByIdAndUpdate(
           poll._id,
