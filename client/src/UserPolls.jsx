@@ -85,7 +85,8 @@ class UserPolls extends React.Component {
         <>
           <p>Profile: {this.props.username}</p>
           <h1>Poll</h1>
-          <Button onClick={this.handleDelete}>Delete profile</Button>
+          <Button onClick={this.togglePopup}>Delete profile</Button>
+          {this.state.showPopup && <Popup close={this.togglePopup.bind(this)} delete={this.handleDelete.bind(this)} />}
         </>
       );
     } else {

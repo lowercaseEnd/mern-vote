@@ -6,8 +6,8 @@ function Popup(props) {
     <div className='popup'>
       <div className='popup--inner'>
         <h1>Delete the poll?</h1>
-        <Button onClick={props.delete}>Delete popup</Button>
-        <Button onClick={props.close}>Close popup</Button>
+        <Button onClick={props.delete}>Delete</Button>
+        <Button onClick={props.close}>Close</Button>
       </div>
     </div>
   );

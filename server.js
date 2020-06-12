@@ -10,6 +10,7 @@ const logger = require("morgan");
 
 
 const DB = require("./models/index");
+// console.log(DB);
 const router = require("./routes/index");
 
 const PORT = process.env.PORT || 4000;
@@ -38,20 +39,6 @@ app.use(passport.session());
 
 require("./passport/index")(passport);
 
-// app.options('*', (req, res) => {
-//   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-//   res.set("Access-Control-Allow-Headers", "Content-Type");
-//   res.set("Access-Control-Allow-Credentials", true);
-//   res.send('ok');
-// });
-// let allowCrossDomain = function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', "*");
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   next();
-// };
-
-// app.use(allowCrossDomain);
 
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
