@@ -170,6 +170,7 @@ router
   .post((req, res, next) => {
     const { body, params, sessionID } = req;
     const { selectedOption } = body;
+    console.log(params);
     const recentVote = 60 * 1000;//минута
     const updateComplete = (err, doc, timeRemaining = recentVote) => {
       res.type("json").send({
@@ -184,18 +185,18 @@ router
     db.Poll.find({ "_id": params.poll })
       .populate("createdBy", "username")
       .exec((err, polls) => {
-        const poll = polls.filter(poll =>
-          poll.createdBy.username === params.user)[0];
+        console.log(polls);
+        const poll = polls[0];
         if (err) {
           return next(err);
         }
         if (!poll) {
           return next(Error("Invalid poll name"));
         }
-        console.log(poll.createdBy.username, params.user)
-        if (poll.createdBy.username !== params.user) {
-          return next(Error("Invalid poll title or username"));
-        }
+        // console.log(poll.createdBy.username, params.user)
+        // if (poll.createdBy.username !== params.user) {
+        //   return next(Error("Invalid poll title or username"));
+        // }
 
         const recentVoters = poll.voters.filter(vote => {
           return Date.now() - vote.dateVoted < recentVote

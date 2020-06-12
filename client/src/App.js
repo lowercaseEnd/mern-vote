@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import './App.css';
 import RouteViews from "./RouteViews";
 import Header from "./Header";
 

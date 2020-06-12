@@ -4,13 +4,15 @@ import { useParams } from "react-router-dom";
 import { ListGroup, Form, Button } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 
+import Popup from "./Popup";
+
 const color = () => {
   return (`#${Math.random().toString(16).slice(2, 8)}`);
 }
 
 function PollPage(props) {
   const { id } = useParams();
-
+  const [showPopup, setShowPopup] = useState(false);
   //пока данные не прогрузились показывать надпись
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
@@ -24,7 +26,7 @@ function PollPage(props) {
       labels: currentPoll.options.map(option => option.option),
       datasets: [
         {
-          label: currentPoll.title,backgroundColor: currentPoll.options.map(() => color()),
+          label: currentPoll.title, backgroundColor: currentPoll.options.map(() => color()),
           data: currentPoll.options.map(option => option.votes)
         }
       ]
@@ -34,7 +36,7 @@ function PollPage(props) {
         <Form.Check type="radio" id={`radio-${index + 1}`} name="radioOption" onClick={() => { handleChange(option.option) }} inline />
         <Form.Label htmlFor={`radio${index + 1}`}>{option.option}</Form.Label>
         <p>Votes: {option.votes}</p>
-        <Pie data={data} />
+
       </>)
     });
     async function handleChange(option) {
@@ -65,7 +67,13 @@ function PollPage(props) {
         });
       }
     }
+    function togglePopup() {
+      setShowPopup(!showPopup);
+    }
     async function handleDelete() {
+      setShowPopup(!showPopup);
+    }
+    async function deletePoll() {
       await fetch(`http://localhost:4000/poll/delete`, {
         method: "DELETE",
         headers: {
@@ -97,8 +105,12 @@ function PollPage(props) {
           <ListGroup.Item>
             {options}
           </ListGroup.Item>
+          <ListGroup.Item>
+            <Pie data={data} />
+          </ListGroup.Item>
         </ListGroup>
         {props.loggedIn && <Button onClick={handleDelete}>Delete poll</Button>}
+        {showPopup && <Popup close={togglePopup} delete={deletePoll}/>}
       </div>
 
     );
