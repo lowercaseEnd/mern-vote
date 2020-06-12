@@ -28,6 +28,8 @@ class UserPolls extends React.Component {
     const polls = this.state.userPolls;
     if (polls === undefined) {
       return <h1>Polls not found</h1>
+    } else if(polls.length === 0) {
+      return <h1>Poll</h1>
     } else {
       const pollList = polls.map((poll, index) => {
         console.log(poll, index);
@@ -35,9 +37,12 @@ class UserPolls extends React.Component {
       }
       );
       return (
-        <ListGroup variant="flush">
-          {pollList}
-        </ListGroup>
+        <div>
+          <p>Profile: {this.props.username}</p>
+          <ListGroup variant="flush">
+            {pollList}
+          </ListGroup>
+        </div>
       )
     }
 

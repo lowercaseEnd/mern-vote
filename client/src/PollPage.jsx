@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ListGroup, Form, Button } from "react-bootstrap";
+import { Pie } from "react-chartjs-2";
+
+const color = () => {
+  return (`#${Math.random().toString(16).slice(2, 8)}`);
+}
 
 function PollPage(props) {
   const { id } = useParams();
@@ -10,16 +15,26 @@ function PollPage(props) {
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
   } else {
-    console.log(props.polls);
+
     let currentPoll = props.polls.filter(item => item._id === id)[0];
     if (currentPoll === undefined) {
       return <h1>No poll found</h1>
+    }
+    const data = {
+      labels: currentPoll.options.map(option => option.option),
+      datasets: [
+        {
+          label: currentPoll.title,backgroundColor: currentPoll.options.map(() => color()),
+          data: currentPoll.options.map(option => option.votes)
+        }
+      ]
     }
     let options = currentPoll.options.map((option, index) => {
       return (<>
         <Form.Check type="radio" id={`radio-${index + 1}`} name="radioOption" onClick={() => { handleChange(option.option) }} inline />
         <Form.Label htmlFor={`radio${index + 1}`}>{option.option}</Form.Label>
         <p>Votes: {option.votes}</p>
+        <Pie data={data} />
       </>)
     });
     async function handleChange(option) {
