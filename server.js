@@ -8,7 +8,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const logger = require("morgan");
 const mongoose = require("mongoose");
-
+const path = require("path");
 
 // const DB = require("./models/index");
 // console.log(DB);
@@ -16,6 +16,7 @@ const router = require("./routes/index");
 
 const PORT = process.env.PORT || 4000;
 const app = express();
+app.use(express.static(path.join(__dirname, "client", "build")))
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(logger("dev"));
@@ -55,7 +56,9 @@ require("./passport/index")(passport);
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
 
-
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
