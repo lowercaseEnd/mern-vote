@@ -55,7 +55,7 @@ require("./passport/index")(passport);
 
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
-
+let router = express.Router();
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });

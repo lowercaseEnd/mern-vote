@@ -26,5 +26,6 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "react-chartjs-2": "^2.9.0"
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
