@@ -102,8 +102,10 @@ router
 router
   .route("/user/delete")
   .delete((req, res, next) => {
-    const { user } = req.body;
-    User.findOne({ username: user }).exec((err, user) => {
+    const { username } = req.body;
+    console.log("delete");
+    console.log(req.body);
+    User.findOne({ username }).exec((err, user) => {
       if (err) {
         return next(err);
       }
@@ -111,7 +113,7 @@ router
         return next(Error("User not found."));
       }
       const { username } = user;
-      if (req.user.username !== username) {
+      if (req.body.username !== username) {
         return next(Error("You are not authorized to delete this account"));
       }
       User.update({ _id: user._id }, { deleted: true }, err => {
