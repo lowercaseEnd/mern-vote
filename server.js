@@ -10,7 +10,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
-// const DB = require("./models/index");
+const DB = require("./models/index");
 // console.log(DB);
 const router = require("./routes/index");
 
@@ -21,17 +21,6 @@ app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(logger("dev"));
 //инициализация паспорта
-mongoose.connect(process.env.MONGODB_URI || process.env.DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-const db = mongoose.connection;
-db.on("error", err => {
-  console.error(`Mongoose connection error: ${err}`);
-});
-db.once("open", () => {
-  console.info(`Mongoose default connection opened: ${process.env.DB}`);
-});
 const sessionOptions = {
   secret: process.env.SECRET,
   resave: false,
@@ -42,7 +31,7 @@ const sessionOptions = {
     httpOnly: false
   },
   store: new MongoStore({
-    mongooseConnection: db,
+    mongooseConnection: DB.DB,
     collection: "sessions"
   })
 };
@@ -55,7 +44,6 @@ require("./passport/index")(passport);
 
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
-let router = express.Router();
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
