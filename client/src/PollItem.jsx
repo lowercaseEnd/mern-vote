@@ -25,7 +25,7 @@ function PollItem(props) {
   }
   return (
     <ListGroupItem action onClick={() => handleClick(props.poll._id)} >
-      {props.poll.title}
+      <h3 className="text-center text-capitalize text--teal">{props.poll.title}</h3>
       <Pie data={data} />
     </ListGroupItem>
   );

@@ -97,10 +97,7 @@ function PollPage(props) {
       <div>
         <ListGroup>
           <ListGroup.Item>
-            {currentPoll._id}
-          </ListGroup.Item>
-          <ListGroup.Item>
-            {currentPoll.title}
+            <h3 className="text-center text-capitalize text--teal">{currentPoll.title}</h3>
           </ListGroup.Item>
           <ListGroup.Item>
             {options}
@@ -110,7 +107,7 @@ function PollPage(props) {
           </ListGroup.Item>
         </ListGroup>
         {props.loggedIn && <Button onClick={handleDelete}>Delete poll</Button>}
-        {showPopup && <Popup close={togglePopup} delete={deletePoll}/>}
+        {showPopup && <Popup close={togglePopup} delete={deletePoll} />}
       </div>
 
     );
