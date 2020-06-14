@@ -8,7 +8,7 @@ function Polls(props) {
   console.log(props.polls)
   const pollList = props.polls.map((poll, index) => {
     console.log(poll, index);
-    return <PollItem key={poll._id} poll={poll} />
+    return <PollItem  key={poll._id} poll={poll} />
   }
   )
   return (

@@ -32,12 +32,12 @@ function PollPage(props) {
       ]
     }
     let options = currentPoll.options.map((option, index) => {
-      return (<>
+      return (<ListGroup.Item>
         <Form.Check type="radio" id={`radio-${index + 1}`} name="radioOption" onClick={() => { handleChange(option.option) }} inline />
-        <Form.Label htmlFor={`radio${index + 1}`}>{option.option}</Form.Label>
+        <Form.Label class="float-right" htmlFor={`radio-${index + 1}`}>{option.option}</Form.Label>
         <p>Votes: {option.votes}</p>
 
-      </>)
+      </ListGroup.Item>)
     });
     async function handleChange(option) {
       let res = await fetch(`http://localhost:4000/poll/${props.username}/polls/${id}`, {
@@ -95,18 +95,21 @@ function PollPage(props) {
     }
     return (
       <div>
-        <ListGroup>
+        <ListGroup variant="flush">
           <ListGroup.Item>
             <h3 className="text-center text-capitalize text--teal">{currentPoll.title}</h3>
           </ListGroup.Item>
           <ListGroup.Item>
-            {options}
+            <ListGroup>
+              {options}
+            </ListGroup>
           </ListGroup.Item>
           <ListGroup.Item>
             <Pie data={data} />
           </ListGroup.Item>
         </ListGroup>
-        {props.loggedIn && <Button onClick={handleDelete}>Delete poll</Button>}
+        {props.loggedIn &&
+          <div className="text-center"><Button className="align-center" onClick={handleDelete}>Delete poll</Button></div>}
         {showPopup && <Popup close={togglePopup} delete={deletePoll} />}
       </div>
 
