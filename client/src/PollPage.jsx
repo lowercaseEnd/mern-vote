@@ -12,12 +12,12 @@ import { interpolateColors } from "./utils/color-generator";
 function PollPage(props) {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
+  const [success, setSuccess] = useState(null);
 
   //пока данные не прогрузились показывать надпись
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
   } else {
-
     let currentPoll = props.polls.filter(item => item._id === id)[0];
     let colorRangeInfo = {
       colorStart: 0.2,
@@ -28,6 +28,7 @@ function PollPage(props) {
     if (currentPoll === undefined) {
       return <h1>No poll found</h1>
     }
+    //данные для chartjs
     const data = {
       labels: currentPoll.options.map(option => option.option),
       datasets: [
@@ -38,12 +39,12 @@ function PollPage(props) {
       ]
     }
     let options = currentPoll.options.map((option, index) => {
-      return (<ListGroup.Item>
-        <Form.Check type="radio" id={`radio-${index + 1}`} name="radioOption" onClick={() => { handleChange(option.option) }} inline />
-        <Form.Label class="float-right" htmlFor={`radio-${index + 1}`}>{option.option}</Form.Label>
-        <p>Votes: {option.votes}</p>
-
-      </ListGroup.Item>)
+      return (
+        <ListGroup.Item>
+          <Form.Check type="radio" id={`radio-${index + 1}`} name="radioOption" onClick={() => { handleChange(option.option) }} inline />
+          <Form.Label class="float-right" htmlFor={`radio-${index + 1}`}>{option.option}</Form.Label>
+          <p>Votes: {option.votes}</p>
+        </ListGroup.Item>)
     });
     async function handleChange(option) {
       let res = await fetch(`http://localhost:4000/poll/${props.username}/polls/${id}`, {
@@ -60,6 +61,7 @@ function PollPage(props) {
       });
       let ans = await res.json();
       if (ans.success) {
+        setSuccess(true);
         let temp = props.polls.map((poll) => {
           if (poll._id === ans.poll._id) {
             return ans.poll;
@@ -71,16 +73,15 @@ function PollPage(props) {
           type: "LOAD_POLLS",
           payload: temp
         });
+      } else {
+        setSuccess(false);
       }
     }
     function togglePopup() {
       setShowPopup(!showPopup);
     }
-    async function handleDelete() {
-      setShowPopup(!showPopup);
-    }
     async function deletePoll() {
-      await fetch(`http://localhost:4000/poll/delete`, {
+      let res = await fetch(`http://localhost:4000/poll/delete`, {
         method: "DELETE",
         headers: {
           "Accept": "application/json",
@@ -93,12 +94,15 @@ function PollPage(props) {
           "username": props.username
         })
       });
-      await fetch(`http://localhost:4000/poll/polls`)
-        .then(response => response.json())
-        .then(res => props.dispatch({
-          type: "LOAD_POLLS",
-          payload: res
-        }));
+      let ans = await res.json();
+      if (ans.success) {
+        await fetch(`http://localhost:4000/poll/polls`)
+          .then(response => response.json())
+          .then(res => props.dispatch({
+            type: "LOAD_POLLS",
+            payload: res
+          }));
+      }
     }
     return (
       <div>
@@ -116,10 +120,10 @@ function PollPage(props) {
           </ListGroup.Item>
         </ListGroup>
         {props.loggedIn &&
-          <div className="text-center"><Button className="align-center" onClick={handleDelete}>Delete poll</Button></div>}
+          <div className="text-center"><Button className="align-center" onClick={togglePopup}>Delete poll</Button></div>}
         {showPopup && <Popup close={togglePopup} delete={deletePoll} />}
+        {!props.loggedIn && <p className="alert alert-warning text-center">You must be logged in in order to vote</p>}
       </div>
-
     );
   }
 

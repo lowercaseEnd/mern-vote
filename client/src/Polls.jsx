@@ -25,7 +25,9 @@ function Polls(props) {
       <Card variant="flush">
         {currentPolls}
       </Card>
-      {pageNumbers}
+      <div className="text-center">
+        {pageNumbers}
+      </div>
     </>
   );
 }

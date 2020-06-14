@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
     const { username, password } = this.state;
     return (
       <Form onSubmit={this.handleSubmit}>
-        {this.state.error && <p>{this.state.error}</p>}
+        {this.state.error && <p className="alert alert-warning">{this.state.error}</p>}
         <Form.Group>
           <Form.Label>Username</Form.Label>
           <Form.Control type="text" placeholder="Enter username" name="username" value={username} onChange={this.handleChange} />
