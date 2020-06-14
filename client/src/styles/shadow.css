@@ -1,0 +1,14 @@
+.list {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.background--green {
+  background-color: #e0f2f1 ;
+}
+
+@media (min-width: 950px) {
+  .list {
+    width: 600px;
+  }
+}

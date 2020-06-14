@@ -35,7 +35,9 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <Header />
-          <RouteViews />
+          <main>
+            <RouteViews />
+          </main>
         </Router>
       </div>
     );

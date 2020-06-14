@@ -32,10 +32,10 @@ function PollItem(props) {
     responsive: false,
   };
   return (
-    <Card.Body className="h-50" action onClick={() => handleClick(props.poll._id)} >
-      <Card.Title className="text-center text-capitalize text--teal">{props.poll.title}</Card.Title>
+    <ListGroupItem className="h-50" action onClick={() => handleClick(props.poll._id)} >
+      <h2 className="text-center text-capitalize text--teal">{props.poll.title}</h2>
       <Pie data={data} height={150} width={200} className="align-center" />
-    </Card.Body>
+    </ListGroupItem>
   );
 }
 

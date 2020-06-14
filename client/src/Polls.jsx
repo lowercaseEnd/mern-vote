@@ -21,14 +21,16 @@ function Polls(props) {
     pageNumbers.push(<Button type="button" onClick={() => setCurrentPage(i)}>{i}</Button>);
   }
   return (
-    <>
-      <Card variant="flush">
-        {currentPolls}
-      </Card>
-      <div className="text-center">
-        {pageNumbers}
-      </div>
-    </>
+    <div className="background--green">
+      <section className="shadow list">
+        <ListGroup variant="flush" className="chart-card">
+          {currentPolls}
+        </ListGroup>
+        <div className="text-center">
+          {pageNumbers}
+        </div>
+      </section>
+    </div>
   );
 }
 
