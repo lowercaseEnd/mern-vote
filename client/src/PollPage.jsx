@@ -47,7 +47,7 @@ function PollPage(props) {
         </ListGroup.Item>)
     });
     async function handleChange(option) {
-      let res = await fetch(`http://localhost:4000/poll/${props.username}/polls/${id}`, {
+      let res = await fetch(`/poll/${props.username}/polls/${id}`, {
         method: "POST",
         headers: {
           "Accept": "application/json",
