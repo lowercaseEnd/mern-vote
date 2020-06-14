@@ -13,7 +13,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:4000/poll/polls`)
+    fetch(`/poll/polls`)
       .then(response => response.json())
       .then(res => this.props.dispatch({
         type: "LOAD_POLLS",

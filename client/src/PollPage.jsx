@@ -81,7 +81,7 @@ function PollPage(props) {
       setShowPopup(!showPopup);
     }
     async function deletePoll() {
-      let res = await fetch(`http://localhost:4000/poll/delete`, {
+      let res = await fetch(`/poll/delete`, {
         method: "DELETE",
         headers: {
           "Accept": "application/json",
@@ -96,7 +96,7 @@ function PollPage(props) {
       });
       let ans = await res.json();
       if (ans.success) {
-        await fetch(`http://localhost:4000/poll/polls`)
+        await fetch(`/poll/polls`)
           .then(response => response.json())
           .then(res => props.dispatch({
             type: "LOAD_POLLS",

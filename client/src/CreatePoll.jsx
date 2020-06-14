@@ -37,7 +37,7 @@ class CreatePollForm extends React.Component {
     event.preventDefault();
     const { title, shortName, options } = this.state;
     const data = { title, shortName, options };
-    let first = await fetch("http://localhost:4000/poll/create_poll", {
+    let first = await fetch("/poll/create_poll", {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -50,7 +50,7 @@ class CreatePollForm extends React.Component {
     let ans = await first.json();
     console.log(ans);
     if (ans.success) {
-      fetch(`http://localhost:4000/poll/polls`)
+      fetch(`/poll/polls`)
       .then(response => response.json())
       .then(res => this.props.dispatch({
         type: "LOAD_POLLS",

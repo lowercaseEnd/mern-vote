@@ -27,7 +27,7 @@ class LoginForm extends React.Component {
     try {
       const { username, password } = this.state;
       const data = { username, password };
-      let response = await fetch(`http://localhost:4000/auth/${this.props.authType}`, {
+      let response = await fetch(`/auth/${this.props.authType}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

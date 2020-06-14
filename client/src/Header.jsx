@@ -10,7 +10,7 @@ class Header extends React.Component {
   }
   async handleLogOut() {
     const data = { username: this.props.username };
-    await fetch("http://localhost:4000/auth/logout", {
+    await fetch("/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

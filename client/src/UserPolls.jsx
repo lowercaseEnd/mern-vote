@@ -31,7 +31,7 @@ class UserPolls extends React.Component {
   async componentDidMount() {
     if (this.props.username) {
       console.log("test");
-      let res = await fetch(`http://localhost:4000/poll/${this.props.username}/polls`);
+      let res = await fetch(`/poll/${this.props.username}/polls`);
       let ans = await res.json();
       console.log(`User: ${JSON.stringify(ans)}`);
       this.setState({
@@ -51,7 +51,7 @@ class UserPolls extends React.Component {
     let data = {
       username: this.props.username
     }
-    let ans = await fetch(`http://localhost:4000/auth/user/delete`,
+    let ans = await fetch(`/auth/user/delete`,
       {
         method: "DELETE",
         headers: {
