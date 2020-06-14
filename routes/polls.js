@@ -70,8 +70,9 @@ router
 router
   .route("/delete")
   .delete((req, res, next) => {
-    const { id } = req.body;
+    const { id, username } = req.body;
     console.log(req.body);
+    console.log(req.user);
     db.Poll.findOne({ _id: id })
       .populate("createdBy", "username")
       .exec((err, poll) => {
@@ -81,7 +82,7 @@ router
         if (!poll) {
           return next(Error("No poll was found"));
         }
-        if (req.user.username !== poll.createdBy.username) {
+        if (username !== poll.createdBy.username) {
           return next(Error("Only creator may delete a poll"));
         }
         db.Poll.deleteOne({ _id: poll })
@@ -122,7 +123,7 @@ router
       const poll = new db.Poll({
         options: options.map((option, index) => ({
           option,
-          votes: 0
+          votes: index === 0 ? 1 : 0
         })),
         createTime: Date.now(),
         createdBy: user._id,
@@ -135,7 +136,7 @@ router
             dateVoted: Date.now()
           }
         ],
-        totalVotes: 0
+        totalVotes: 1
       });
       // console.log(poll)
       poll.save(err => {
@@ -193,10 +194,6 @@ router
         if (!poll) {
           return next(Error("Invalid poll name"));
         }
-        // console.log(poll.createdBy.username, params.user)
-        // if (poll.createdBy.username !== params.user) {
-        //   return next(Error("Invalid poll title or username"));
-        // }
 
         const recentVoters = poll.voters.filter(vote => {
           return Date.now() - vote.dateVoted < recentVote

@@ -83,7 +83,8 @@ function PollPage(props) {
         cache: "default",
         credentials: "include",
         body: JSON.stringify({
-          "id": currentPoll._id
+          "id": currentPoll._id,
+          "username": props.username
         })
       });
       await fetch(`http://localhost:4000/poll/polls`)

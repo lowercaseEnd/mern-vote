@@ -13,7 +13,7 @@ const color = () => {
 function PollItem(props) {
   let history = useHistory();
   let colorRangeInfo = {
-    colorStart: 0,
+    colorStart: 0.2,
     colorEnd: 1,
     useEndAsStart: false
   }
