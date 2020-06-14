@@ -2,7 +2,9 @@ import React from "react";
 import { ListGroupItem } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { Pie } from "react-chartjs-2";
+import { interpolateInferno } from "d3-scale-chromatic";
 
+import { interpolateColors } from "./utils/color-generator";
 
 const color = () => {
   return (`#${Math.random().toString(16).slice(2, 8)}`);
@@ -10,7 +12,12 @@ const color = () => {
 
 function PollItem(props) {
   let history = useHistory();
-
+  let colorRangeInfo = {
+    colorStart: 0,
+    colorEnd: 1,
+    useEndAsStart: false
+  }
+  let colors = interpolateColors(props.poll.options.length, interpolateInferno, colorRangeInfo);
   function handleClick(id) {
     history.push(`/poll/${id}`);
   }
@@ -18,8 +25,9 @@ function PollItem(props) {
     labels: props.poll.options.map(option => option.option),
     datasets: [
       {
-        label: props.poll.title, backgroundColor: props.poll.options.map(() => color()),
-        data: props.poll.options.map(option => option.votes)
+        label: props.poll.title, 
+        backgroundColor: colors,
+        data: props.poll.options.map(option => option.votes )
       }
     ]
   }
