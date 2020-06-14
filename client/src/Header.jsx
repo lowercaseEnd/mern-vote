@@ -2,7 +2,6 @@ import React from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Pie } from "react-chartjs-2";
 
 class Header extends React.Component {
   constructor(props) {
@@ -36,12 +35,12 @@ class Header extends React.Component {
           </Nav.Link>
         </Navbar.Brand>
         <Navbar.Toggle className="navbar-dark" />
-        <Navbar.Collapse >
+        <Navbar.Collapse>
           <Nav className="mr-auto">
             <Nav.Link as={Link} to="/" className="text-light">
               Main
               </Nav.Link>
-            {!this.props.loggedIn && <Nav.Link as={Link} to="/login" className="text-light">
+            {!this.props.loggedIn && <Nav.Link as={Link} to="/login" className="text-light" >
               Login
               </Nav.Link>}
             {!this.props.loggedIn &&

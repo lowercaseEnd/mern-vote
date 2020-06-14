@@ -3,22 +3,28 @@ import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ListGroup, Form, Button } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
+import { interpolateInferno } from "d3-scale-chromatic";
 
 import Popup from "./Popup";
 
-const color = () => {
-  return (`#${Math.random().toString(16).slice(2, 8)}`);
-}
+import { interpolateColors } from "./utils/color-generator";
 
 function PollPage(props) {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
+
   //пока данные не прогрузились показывать надпись
   if (props.polls.length === 0) {
     return <h1>Loading...</h1>
   } else {
 
     let currentPoll = props.polls.filter(item => item._id === id)[0];
+    let colorRangeInfo = {
+      colorStart: 0.2,
+      colorEnd: 1,
+      useEndAsStart: false
+    }
+    let colors = interpolateColors(currentPoll.options.length, interpolateInferno, colorRangeInfo);
     if (currentPoll === undefined) {
       return <h1>No poll found</h1>
     }
@@ -26,7 +32,7 @@ function PollPage(props) {
       labels: currentPoll.options.map(option => option.option),
       datasets: [
         {
-          label: currentPoll.title, backgroundColor: currentPoll.options.map(() => color()),
+          label: currentPoll.title, backgroundColor: colors,
           data: currentPoll.options.map(option => option.votes)
         }
       ]

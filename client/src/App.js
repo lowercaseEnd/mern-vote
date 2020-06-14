@@ -31,27 +31,18 @@ class App extends React.Component {
   }
 
   render() {
-    const { username, posts } = this.props;
     return (
       <div className="App">
         <Router>
           <Header />
           <RouteViews />
         </Router>
-
-
       </div>
     );
   }
 
 }
 
-const mapStateToProps = state => {
-  return {
-    posts: state.posts,
-    username: state.username
-  }
-}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -59,4 +50,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

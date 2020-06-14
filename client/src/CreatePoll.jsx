@@ -56,6 +56,11 @@ class CreatePollForm extends React.Component {
         type: "LOAD_POLLS",
         payload: res
       }));
+      this.setState({
+        title: "",
+        shortName: "",
+        options: ["", ""]
+      })
     }
   }
   render() {
