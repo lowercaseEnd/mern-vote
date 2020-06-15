@@ -51,11 +51,11 @@ class CreatePollForm extends React.Component {
     console.log(ans);
     if (ans.success) {
       fetch(`/poll/polls`)
-      .then(response => response.json())
-      .then(res => this.props.dispatch({
-        type: "LOAD_POLLS",
-        payload: res
-      }));
+        .then(response => response.json())
+        .then(res => this.props.dispatch({
+          type: "LOAD_POLLS",
+          payload: res
+        }));
       this.setState({
         title: "",
         shortName: "",
@@ -71,18 +71,20 @@ class CreatePollForm extends React.Component {
       </React.Fragment>
     ));
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Label htmlFor="title">Title</Form.Label>
-        <Form.Control type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
-        <Form.Text id="title" muted>Must be at least 3 characters long.</Form.Text>
-        <Form.Label htmlFor="shortName">Short Name</Form.Label>
-        <Form.Control type="text" id="shortName" name="shortName" value={this.state.shortName} onChange={this.handleChange} />
-        <Form.Text id="title" muted>Must be not longer than 16 characters long.</Form.Text>
-        {options}
-        <p className="alert text-info">All options must be unique</p>
-        <Button type="button" onClick={this.addOption}>Add option</Button>
-        <Button type="submit">Submit</Button>
-      </Form>
+      <div className="create shadow">
+        <Form className="create__form" onSubmit={this.handleSubmit}>
+          <Form.Label htmlFor="title">Title</Form.Label>
+          <Form.Control type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
+          <Form.Text id="title" muted>Must be at least 3 characters long.</Form.Text>
+          <Form.Label htmlFor="shortName">Short Name</Form.Label>
+          <Form.Control type="text" id="shortName" name="shortName" value={this.state.shortName} onChange={this.handleChange} />
+          <Form.Text id="title" muted>Must be not longer than 16 characters long.</Form.Text>
+          {options}
+          <p className="alert text-info">All options must be unique</p>
+          <Button type="button" onClick={this.addOption}>Add option</Button>
+          <Button type="submit">Submit</Button>
+        </Form>
+      </div>
     );
   }
 }

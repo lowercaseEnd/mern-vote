@@ -124,7 +124,7 @@ function PollPage(props) {
     }
     return (
       <div>
-        {success && <p className="p-3 mb-2 bg-warning text-white text-center">You can vote again in {timeRemaining} seconds</p>}
+        {success && timeRemaining > 0 && <p className="p-3 mb-2 bg-warning text-white text-center">You can vote again in {timeRemaining} seconds</p>}
         {success === false && props.loggedIn && <p className="p-3 mb-2 bg-warning text-white text-center">You must wait before you can vote again</p>}
         {!props.loggedIn && <p className="alert alert-warning text-center">You must be logged in in order to vote</p>}
         <div className="poll-info shadow">
