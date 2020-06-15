@@ -24,6 +24,7 @@ class Header extends React.Component {
       type: "LOG_OUT"
     });
     localStorage.clear();
+    document.cookie = "";
   }
 
   render() {
