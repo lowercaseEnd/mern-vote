@@ -18,10 +18,15 @@ function Polls(props) {
   //отображение номеров страниц
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(pollList.length / pollsPerPage); i++) {
-    pageNumbers.push(<Pagination.Item className="page-item" key={i}><Button type="button" variant="light" onClick={() => setCurrentPage(i)}>{i}</Button></Pagination.Item>);
+    pageNumbers.push(<Pagination.Item className="page-item transparent--button" onClick={() => setCurrentPage(i)} key={i}><Button type="button" disabled={currentPage === i ? true : false} variant="light" className="transparent--button">{i}</Button></Pagination.Item>);
   }
   return (
     <div className="background--green">
+      <div className="text-center">
+        <h1 className="text-capitalize text--teal welcome">Welcome to Vote app!</h1>
+        <p className="welcome text--teal text-center">Check out some of the great user-submitted polls below, or create your own.</p>
+      </div>
+
       <section className="shadow list">
         <ListGroup variant="flush" className="chart-card">
           {currentPolls}

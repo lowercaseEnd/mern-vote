@@ -1,3 +1,10 @@
 .text--teal {
   color: #00897b;
 }
+.text--darker {
+  color: #00695c;
+}
+.welcome {
+  width: 400px;
+  margin: 20px auto;
+}

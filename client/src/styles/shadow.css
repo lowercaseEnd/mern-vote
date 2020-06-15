@@ -4,7 +4,9 @@
 }
 
 .background--green {
-  background-color: #e0f2f1 ;
+  width: 80%;
+  background-color: #e0f2f1;
+  margin: 50px auto;
 }
 
 @media (min-width: 950px) {
