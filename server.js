@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, "client", "build")))
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(logger("dev"));
+
 //инициализация паспорта
 const sessionOptions = {
   secret: process.env.SECRET,
@@ -45,7 +46,7 @@ require("./passport/index")(passport);
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });

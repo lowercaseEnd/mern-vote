@@ -20,9 +20,6 @@ class App extends React.Component {
         payload: res
       }));
     if (localStorage.getItem("user")) {
-      if(document.cookie) {
-        document.cookie = "";
-      }
       document.cookie = localStorage.getItem("session");
       this.props.dispatch({
         type: "SET_CURRENT_USER",
