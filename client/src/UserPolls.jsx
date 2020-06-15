@@ -74,24 +74,22 @@ class UserPolls extends React.Component {
     }
   }
   render() {
-    const polls = this.state.userPolls;
     if (this.props.username === "") {
-      return <h1>User not found</h1>;
+      return <h1>You must be logged in to view this page</h1>;
     }
-    if (polls === undefined) {
-      return <h1>Polls not found</h1>
-    } else if (polls.length === 0) {
-      return (
-        <>
-          <p>Profile: {this.props.username}</p>
-          <h1>Poll</h1>
-          <Button onClick={this.togglePopup}>Delete profile</Button>
-          {this.state.showPopup && <Popup close={this.togglePopup.bind(this)} delete={this.handleDelete.bind(this)} />}
-        </>
-      );
+    
+    const polls = this.state.userPolls;
+
+    if (polls === undefined || polls.length === 0) {
+      return (<>
+        <p>Profile: {this.props.username}</p>
+        <h1>Polls not found</h1>
+        <Button onClick={this.togglePopup}>Delete profile</Button>
+        {this.state.showPopup && <Popup close={this.togglePopup.bind(this)} delete={this.handleDelete.bind(this)} />}
+      </>)
+
     } else {
       const pollList = polls.map((poll, index) => {
-        console.log(poll, index);
         return <PollItem key={poll._id} poll={poll} />
       }
       );
@@ -101,7 +99,7 @@ class UserPolls extends React.Component {
           <ListGroup variant="flush">
             {pollList}
           </ListGroup>
-          <Button onClick={this.handleDelete}>Delete profile</Button>
+          <Button onClick={this.togglePopup} variant="danger">Delete profile</Button>
           {this.state.showPopup && <Popup close={this.togglePopup.bind(this)} delete={this.handleDelete.bind(this)} />}
         </div>
       )

@@ -27,10 +27,6 @@ function PollItem(props) {
       }
     ]
   };
-  const options = {
-    maintainAspectRatio: false,
-    responsive: false,
-  };
   return (
     <ListGroupItem className="h-50" action onClick={() => handleClick(props.poll._id)} >
       <h2 className="text-center text-capitalize text--teal">{props.poll.title}</h2>
