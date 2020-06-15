@@ -12,3 +12,7 @@
 .pagination>li>a {
   border-color: transparent !important;
 }
+
+.delete {
+  margin-top: 50px;
+}

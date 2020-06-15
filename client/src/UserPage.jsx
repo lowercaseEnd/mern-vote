@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { ListGroup, Button } from "react-bootstrap";
+import { ListGroup, Button, Tab, Col } from "react-bootstrap";
 
 import LoadingScreen from "./LoadingScreen";
 import deleteAllCookies from "./utils/cookies";
@@ -71,13 +71,34 @@ function UserPage(props) {
     return <h1>You must be logged in to view this page</h1>;
   }
   return loading ? <LoadingScreen /> : (
-    <div>
+    <div className="profile">
       <p>Profile: {props.username}</p>
-      <ListGroup variant="flush">
-        {polls}
-      </ListGroup>
-      <Button onClick={togglePopup} variant="danger">Delete profile</Button>
-      {showPopup && <Popup close={togglePopup.bind(this)} delete={handleDelete.bind(this)} />}
+      <Tab.Container defaultActiveKey="#polls">
+        <Col>
+          <ListGroup>
+            <ListGroup.Item action href="#polls">
+              User polls
+          </ListGroup.Item>
+            <ListGroup.Item action href="#settings">
+              Settings
+          </ListGroup.Item>
+          </ListGroup>
+
+        </Col>
+        <Col>
+          <Tab.Content>
+            <Tab.Pane eventKey="#polls">
+              <ListGroup variant="flush">
+                {polls}
+              </ListGroup>
+            </Tab.Pane>
+            <Tab.Pane eventKey="#settings" className="text-center">
+              <Button className="delete" onClick={togglePopup} variant="danger">Delete profile</Button>
+            </Tab.Pane>
+          </Tab.Content>
+        </Col>
+        {showPopup && <Popup close={togglePopup.bind(this)} delete={handleDelete.bind(this)} />}
+      </Tab.Container>
     </div>
   )
 }
