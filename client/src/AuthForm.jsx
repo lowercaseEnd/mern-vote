@@ -60,6 +60,15 @@ class LoginForm extends React.Component {
       }
     } catch (err) {
       console.log(err);
+      if (this.props.authType === "login") {
+        this.setState({
+          error: "Incorrect username and/or password"
+        });
+      } else {
+        this.setState({
+          error: "Username is already taken"
+        });
+      }
     }
 
   }
