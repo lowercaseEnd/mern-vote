@@ -18,7 +18,13 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.static(path.join(__dirname, "client", "build")))
 app.use(bodyParser.json());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+if(process.env.NODE_ENV === "production") {
+  app.use(cors({ credentials: true, origin: "https://dry-bayou-69890.herokuapp.com" }));
+
+} else {
+  app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
+}
 app.use(logger("dev"));
 
 //инициализация паспорта

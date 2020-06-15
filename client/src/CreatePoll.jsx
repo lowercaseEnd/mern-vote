@@ -37,8 +37,6 @@ class CreatePollForm extends React.Component {
     event.preventDefault();
     const { title, shortName, options } = this.state;
     const data = { title, shortName, options };
-    console.log(data);
-    console.log(document.cookie);
     let first = await fetch("/poll/create_poll", {
       method: "POST",
       headers: {
