@@ -74,7 +74,9 @@ class CreatePollForm extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Label htmlFor="title">Title</Form.Label>
         <Form.Control type="text" id="title" name="title" value={this.state.title} onChange={this.handleChange} />
+        <Form.Text id="title" muted>Must be at least 3 characters long.</Form.Text>
         <Form.Label htmlFor="shortName">Short Name</Form.Label>
+        <Form.Text id="title" muted>Must be not longer than 16 characters long.</Form.Text>
         <Form.Control type="text" id="shortName" name="shortName" value={this.state.shortName} onChange={this.handleChange} />
         {options}
         <Button type="button" onClick={this.addOption}>Add option</Button>

@@ -60,18 +60,21 @@ class LoginForm extends React.Component {
     }
     const { username, password } = this.state;
     return (
-      <Form onSubmit={this.handleSubmit}>
-        {this.state.error && <p className="alert alert-warning">{this.state.error}</p>}
-        <Form.Group>
-          <Form.Label>Username</Form.Label>
-          <Form.Control type="text" placeholder="Enter username" name="username" value={username} onChange={this.handleChange} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={this.handleChange} />
-        </Form.Group>
-        <Button type="submit">{this.props.authType}</Button>
-      </Form>
+      <section className="text-center auth">
+        <Form className="auth__form" onSubmit={this.handleSubmit}>
+          {this.state.error && <p className="alert alert-warning">{this.state.error}</p>}
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text" placeholder="Enter username" name="username" value={username} onChange={this.handleChange} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={this.handleChange} />
+          </Form.Group>
+          <Button type="submit">{this.props.authType}</Button>
+        </Form>
+      </section>
+
     );
   }
 }

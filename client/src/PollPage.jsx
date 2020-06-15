@@ -13,6 +13,18 @@ function PollPage(props) {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [success, setSuccess] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(60);
+  
+  useEffect(() => {
+    if(timeRemaining <= 0) {
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      setTimeRemaining(timeRemaining - 1);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [timeRemaining]);
 
   //пока данные не прогрузились показывать надпись
   if (props.polls.length === 0) {
@@ -62,6 +74,7 @@ function PollPage(props) {
       let ans = await res.json();
       if (ans.success) {
         setSuccess(true);
+        setTimeRemaining(timeRemaining - 1);
         let temp = props.polls.map((poll) => {
           if (poll._id === ans.poll._id) {
             return ans.poll;
@@ -106,6 +119,8 @@ function PollPage(props) {
     }
     return (
       <div>
+        {success && <p className="p-3 mb-2 bg-warning text-white text-center">You can vote again in {timeRemaining} seconds</p>}
+        {success === false && props.loggedIn && <p className="p-3 mb-2 bg-warning text-white text-center">You must wait before voting again</p>}
         <ListGroup variant="flush">
           <ListGroup.Item>
             <h3 className="text-center text-capitalize text--teal">{currentPoll.title}</h3>
