@@ -8,7 +8,7 @@ import AuthForm from "./AuthForm";
 import Polls from "./Polls";
 import CreatePoll from "./CreatePoll";
 import PollPage from "./PollPage";
-import UserPolls from "./UserPolls";
+import UserPage from "./UserPage";
 
 const Routes = () => {
   return (
@@ -26,7 +26,7 @@ const Routes = () => {
         <PollPage />
       </Route>
       <Route path="/profile">
-        <UserPolls />
+        <UserPage />
       </Route>
       <Route path="/">
         <Polls />
