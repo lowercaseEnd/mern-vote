@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ListGroup, Card, Button } from "react-bootstrap";
+import { ListGroup, Pagination, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import PollItem from "./PollItem";
@@ -18,7 +18,7 @@ function Polls(props) {
   //отображение номеров страниц
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(pollList.length / pollsPerPage); i++) {
-    pageNumbers.push(<Button type="button" onClick={() => setCurrentPage(i)}>{i}</Button>);
+    pageNumbers.push(<Pagination.Item className="page-item" key={i}><Button type="button" variant="light" onClick={() => setCurrentPage(i)}>{i}</Button></Pagination.Item>);
   }
   return (
     <div className="background--green">
@@ -26,10 +26,10 @@ function Polls(props) {
         <ListGroup variant="flush" className="chart-card">
           {currentPolls}
         </ListGroup>
-        <div className="text-center">
-          {pageNumbers}
-        </div>
       </section>
+      <div className="text-center">
+        <Pagination className=" justify-content-center">{pageNumbers}</Pagination>
+      </div>
     </div>
   );
 }

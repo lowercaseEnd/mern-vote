@@ -74,6 +74,9 @@ function PollPage(props) {
       let ans = await res.json();
       if (ans.success) {
         setSuccess(true);
+        if(timeRemaining <= 0) {
+          setTimeRemaining(60);
+        }
         setTimeRemaining(timeRemaining - 1);
         let temp = props.polls.map((poll) => {
           if (poll._id === ans.poll._id) {
