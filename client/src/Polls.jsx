@@ -18,7 +18,7 @@ function Polls(props) {
   //отображение номеров страниц
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(pollList.length / pollsPerPage); i++) {
-    pageNumbers.push(<Pagination.Item className="page-item transparent--button" onClick={() => setCurrentPage(i)} key={i}><Button type="button" disabled={currentPage === i ? true : false} variant="light" className="transparent--button">{i}</Button></Pagination.Item>);
+    pageNumbers.push(<Pagination.Item className="page-item transparent--button" onClick={() => setCurrentPage(i)} key={i}><Button type="button" disabled={currentPage === i ? true : false} variant="light" className="transparent--button button">{i}</Button></Pagination.Item>);
   }
   return (
     <div className="background--green">

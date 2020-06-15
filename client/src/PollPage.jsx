@@ -14,9 +14,9 @@ function PollPage(props) {
   const [showPopup, setShowPopup] = useState(false);
   const [success, setSuccess] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(60);
-  
+
   useEffect(() => {
-    if(timeRemaining <= 0) {
+    if (timeRemaining <= 0) {
       return;
     }
 
@@ -31,15 +31,17 @@ function PollPage(props) {
     return <h1>Loading...</h1>
   } else {
     let currentPoll = props.polls.filter(item => item._id === id)[0];
+    if (currentPoll === undefined) {
+      return <h1>No poll found</h1>
+    }
+    //цвета для чарта
     let colorRangeInfo = {
       colorStart: 0.2,
       colorEnd: 1,
       useEndAsStart: false
     }
     let colors = interpolateColors(currentPoll.options.length, interpolateInferno, colorRangeInfo);
-    if (currentPoll === undefined) {
-      return <h1>No poll found</h1>
-    }
+    
     //данные для chartjs
     const data = {
       labels: currentPoll.options.map(option => option.option),
@@ -74,7 +76,7 @@ function PollPage(props) {
       let ans = await res.json();
       if (ans.success) {
         setSuccess(true);
-        if(timeRemaining <= 0) {
+        if (timeRemaining !== 60) {
           setTimeRemaining(60);
         }
         setTimeRemaining(timeRemaining - 1);
@@ -123,24 +125,26 @@ function PollPage(props) {
     return (
       <div>
         {success && <p className="p-3 mb-2 bg-warning text-white text-center">You can vote again in {timeRemaining} seconds</p>}
-        {success === false && props.loggedIn && <p className="p-3 mb-2 bg-warning text-white text-center">You must wait before voting again</p>}
-        <ListGroup variant="flush">
-          <ListGroup.Item>
-            <h3 className="text-center text-capitalize text--teal">{currentPoll.title}</h3>
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <ListGroup>
-              {options}
-            </ListGroup>
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <Pie data={data} />
-          </ListGroup.Item>
-        </ListGroup>
-        {props.loggedIn &&
-          <div className="text-center"><Button className="align-center" onClick={togglePopup}>Delete poll</Button></div>}
-        {showPopup && <Popup close={togglePopup} delete={deletePoll} />}
+        {success === false && props.loggedIn && <p className="p-3 mb-2 bg-warning text-white text-center">You must wait before you can vote again</p>}
         {!props.loggedIn && <p className="alert alert-warning text-center">You must be logged in in order to vote</p>}
+        <div className="poll-info shadow">
+          <ListGroup variant="flush">
+            <ListGroup.Item className="borderless">
+              <h3 className="text-center text-capitalize text--teal">{currentPoll.title}</h3>
+            </ListGroup.Item>
+            <ListGroup.Item className="borderless">
+              <ListGroup>
+                {options}
+              </ListGroup>
+            </ListGroup.Item>
+            <ListGroup.Item className="borderless">
+              <Pie data={data} />
+            </ListGroup.Item>
+          </ListGroup>
+          {props.loggedIn &&
+            <div className="text-center"><Button className="align-center" variant="danger" onClick={togglePopup}>Delete poll</Button></div>}
+          {showPopup && <Popup close={togglePopup} delete={deletePoll} />}
+        </div>
       </div>
     );
   }

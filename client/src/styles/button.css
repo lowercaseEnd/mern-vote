@@ -1,17 +1,14 @@
 .transparent--button {
   color: #009688 !important;
-  border: none;
   background-color: transparent !important;
   border-color: transparent !important;
 }
-
+.button:active {
+  background-color: rgb(0, 128, 128, 0.5) !important;
+}
 .page-link {
   background-color: transparent !important;
 }
 .pagination>li>a {
   border-color: transparent !important;
-}
-
-.page-link:focus {
-  outline: -webkit-focus-ring-color auto 1px;
 }
