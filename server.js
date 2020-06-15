@@ -52,7 +52,7 @@ require("./passport/index")(passport);
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
 if (process.env.NODE_ENV === "production") {
-
+  app.set("Content-Type", "application/json");
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
