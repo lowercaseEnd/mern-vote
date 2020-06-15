@@ -36,7 +36,7 @@ class Header extends React.Component {
         </Navbar.Brand>
         <Navbar.Toggle className="navbar-dark" />
         <Navbar.Collapse>
-          <Nav className="mr-auto">
+          <Nav className="mr-auto text-center">
             <Nav.Link as={Link} to="/" className="text-light">
               Main
               </Nav.Link>
@@ -54,7 +54,7 @@ class Header extends React.Component {
             {this.props.loggedIn &&
               <Nav.Link as={Link} to="/profile" className="text-light">My profile</Nav.Link>}
             {this.props.loggedIn &&
-              <Button onClick={this.handleLogOut}>Log out</Button>}
+              <Button variant="link" onClick={this.handleLogOut}>Log out</Button>}
           </Nav>
         </Navbar.Collapse>
 
