@@ -42,6 +42,7 @@ class CreatePollForm extends React.Component {
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
+        "Set-Cookie": localStorage.getItem("session")
       },
       cache: "default",
       credentials: "include",
