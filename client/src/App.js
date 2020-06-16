@@ -7,11 +7,6 @@ import Header from "./Header";
 
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-  }
-
   componentDidMount() {
     fetch(`/poll/polls`)
       .then(response => response.json())
@@ -29,7 +24,6 @@ class App extends React.Component {
       });
     }
   }
-
   render() {
     return (
       <div className="App">
@@ -42,7 +36,6 @@ class App extends React.Component {
       </div>
     );
   }
-
 }
 
 
