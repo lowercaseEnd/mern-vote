@@ -7,7 +7,6 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const logger = require("morgan");
-const mongoose = require("mongoose");
 const path = require("path");
 
 const DB = require("./models/index");
@@ -16,7 +15,7 @@ const router = require("./routes/index");
 
 const PORT = process.env.PORT || 4000;
 const app = express();
-app.use(express.static(path.join(__dirname, "client", "build")))
+// app.use(express.static(path.join(__dirname, "client", "build")))
 app.use(bodyParser.json());
 if(process.env.NODE_ENV === "production") {
   app.use(cors({ credentials: true, origin: "https://dry-bayou-69890.herokuapp.com" }));
@@ -52,7 +51,7 @@ require("./passport/index")(passport);
 app.use("/auth", router.users);
 app.use("/poll", router.polls);
 if (process.env.NODE_ENV === "production") {
-  
+  app.use(express.static(path.join(__dirname, "client", "build")))
   app.get("*", (req, res) => {
     res.header("Content-Type", "application/json");
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
