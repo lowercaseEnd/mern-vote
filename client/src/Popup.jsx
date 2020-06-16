@@ -5,7 +5,7 @@ function Popup(props) {
   return (
     <div className='popup'>
       <div className='popup--inner text-center'>
-        <h1>Delete the poll?</h1>
+        <h1>Confirm the action?</h1>
         <Button onClick={props.delete}>Delete</Button>
         <Button onClick={props.close}>Close</Button>
       </div>
