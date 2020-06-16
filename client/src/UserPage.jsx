@@ -72,7 +72,7 @@ function UserPage(props) {
   }
   return loading ? <LoadingScreen /> : (
     <div className="profile">
-      <p>Profile: {props.username}</p>
+      <h2 className="text-center text--teal">My Account</h2>
       <Tab.Container defaultActiveKey="#polls">
         <Col>
           <ListGroup>
