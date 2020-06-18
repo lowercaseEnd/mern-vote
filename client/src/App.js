@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import RouteViews from "./RouteViews";
 import Header from "./Header";
+import Loading from './LoadingScreen';
 
 
 class App extends React.Component {
@@ -30,7 +31,7 @@ class App extends React.Component {
         <Router>
           <Header />
           <main>
-            <RouteViews />
+           {this.props.polls === [] ? <Loading /> : <RouteViews />}
           </main>
         </Router>
       </div>
@@ -45,4 +46,8 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(state => {
+  return {
+    polls: state.polls
+  }
+}, mapDispatchToProps)(App);
