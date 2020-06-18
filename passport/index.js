@@ -1,5 +1,3 @@
-// const passport = require("passport");
-
 const User = require("../models/index").User;
 const register = require("./register");
 const login = require("./login");
