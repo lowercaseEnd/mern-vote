@@ -7,7 +7,6 @@ function calculatePoint(i, intervalSize, colorRangeInfo) {
     : (colorStart + (i * intervalSize)));
 }
 
-//
 function interpolateColors(dataLength, colorScale, colorRangeInfo) {
   let { colorStart, colorEnd } = colorRangeInfo;
   let colorRange = colorEnd - colorStart;

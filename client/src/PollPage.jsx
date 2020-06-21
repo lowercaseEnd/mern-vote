@@ -51,7 +51,7 @@ function PollPage(props) {
           data: currentPoll.options.map(option => option.votes)
         }
       ]
-    }
+    };
     let options = currentPoll.options.map((option, index) => {
       return (
         <ListGroup.Item>

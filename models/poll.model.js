@@ -39,7 +39,7 @@ PollSchema.statics.getPolls = function () {
       resolve(docs);
     })
   })
-}
+};
 
 //не сохранять голосования с одинаковыми именами
 PollSchema.pre("save", function (next) {
@@ -56,6 +56,6 @@ PollSchema.pre("save", function (next) {
       }
       return next()
     })
-})
+});
 const Poll = mongoose.model("Poll", PollSchema, "polls");
 module.exports = Poll;

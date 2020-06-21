@@ -67,8 +67,8 @@ class CreatePollForm extends React.Component {
   render() {
     const options = this.state.options.map((option, index) => (
       <React.Fragment key={index}>
-        <Form.Label>Option {index + 1}</Form.Label>
-        <Form.Control name="options" type="text" value={option} onChange={event => this.handleOption(event, index)} />
+        <Form.Label htmlFor={"option-"+index}>Option {index + 1}</Form.Label>
+        <Form.Control id={"option-"+index} name="options" type="text" value={option} onChange={event => this.handleOption(event, index)} />
       </React.Fragment>
     ));
     return (
