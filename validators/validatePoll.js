@@ -13,6 +13,9 @@ const validatePoll = [
   check("options")
     .custom(array => Array.from(new Set(array)).length >= 2)
     .withMessage("Must include at least 2 unique options"),
+  check("options")
+    .custom(array => Array.from(array).length < 15)
+    .withMessage("Must not be more than 15 options"),
   check("options.*")
     .trim()
     .isLength({ min: 1 })
