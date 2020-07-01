@@ -2,6 +2,8 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
+import { loadPolls } from "./store/actions/index";
+
 
 class CreatePollForm extends React.Component {
   constructor(props) {
@@ -53,10 +55,7 @@ class CreatePollForm extends React.Component {
     if (ans.success) {
       fetch(`/poll/polls`)
         .then(response => response.json())
-        .then(res => this.props.dispatch({
-          type: "LOAD_POLLS",
-          payload: res
-        }));
+        .then(res => this.props.dispatch(loadPolls(res)));
       this.setState({
         title: "",
         shortName: "",

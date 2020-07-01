@@ -7,6 +7,8 @@ import deleteAllCookies from "./utils/cookies";
 import Popup from "./Popup";
 import PollItem from "./PollItem";
 
+import { authUser } from "./store/actions/index";
+
 function UserPage(props) {
   let [userPolls, setUserPolls] = useState([]);
   let [loading, setLoading] = useState(false);
@@ -16,7 +18,6 @@ function UserPage(props) {
   useEffect(() => {
     console.log(props.username)
     if (props.username) {
-      console.log("testyyy");
       async function getPolls() {
         setLoading(true);
         let res = await fetch(`/poll/${props.username}/polls`);
@@ -57,12 +58,7 @@ function UserPage(props) {
       });
     let res = await ans.json();
     if (res.success) {
-      props.dispatch({
-        type: "SET_CURRENT_USER",
-        payload: {
-          username: ""
-        }
-      });
+      props.dispatch(authUser(""));
       localStorage.clear();
       deleteAllCookies();
     }

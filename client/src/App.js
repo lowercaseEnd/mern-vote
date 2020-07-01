@@ -10,17 +10,18 @@ import { loadPolls, authUser } from "./store/actions/index";
 
 function App(props) {
   useEffect(() => {
-    fetch(`/poll/polls`)
-      .then(response => response.json())
-      .then(res => {
-        props.dispatch(loadPolls(res));
-    });
+    async function getPosts(){
+      let response = await fetch(`/poll/polls`)
+      let res = await response.json();
+      props.dispatch(loadPolls(res));
+    }
+    getPosts();
     if (localStorage.getItem("user")) {
       document.cookie = localStorage.getItem("session");
       const username = localStorage.getItem("user");
       props.dispatch(authUser(username));
     }
-  }, [])
+  }, []);
   return (
     <div className="App">
       <Router>

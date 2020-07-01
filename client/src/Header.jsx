@@ -3,6 +3,8 @@ import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+import { logOut } from "./store/actions/index";
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +22,7 @@ class Header extends React.Component {
       credentials: "include",
       body: JSON.stringify(data)
     });
-    this.props.dispatch({
-      type: "LOG_OUT"
-    });
+    this.props.dispatch(logOut());
     localStorage.clear();
     document.cookie = "";
   }

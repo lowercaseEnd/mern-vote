@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from "../actionTypes";
+import { SET_CURRENT_USER, LOG_OUT } from "../actionTypes";
 
 function authUser(username) {
   return {
@@ -9,4 +9,10 @@ function authUser(username) {
   }
 }
 
-export { authUser };
+function logOut() {
+  return {
+    type: LOG_OUT
+  };
+}
+
+export { authUser, logOut };

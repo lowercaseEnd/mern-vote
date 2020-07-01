@@ -8,6 +8,7 @@ import { interpolateInferno } from "d3-scale-chromatic";
 import Popup from "./Popup";
 
 import { interpolateColors } from "./utils/color-generator";
+import { loadPolls } from "./store/actions/index";
 
 function PollPage(props) {
   const { id } = useParams();
@@ -87,10 +88,7 @@ function PollPage(props) {
             return poll;
           }
         });
-        props.dispatch({
-          type: "LOAD_POLLS",
-          payload: temp
-        });
+        props.dispatch(loadPolls(temp));
       } else {
         setSuccess(false);
       }
@@ -116,10 +114,7 @@ function PollPage(props) {
       if (ans.success) {
         await fetch(`/poll/polls`)
           .then(response => response.json())
-          .then(res => props.dispatch({
-            type: "LOAD_POLLS",
-            payload: res
-          }));
+          .then(res => props.dispatch(loadPolls(res)));
       }
     }
     return (

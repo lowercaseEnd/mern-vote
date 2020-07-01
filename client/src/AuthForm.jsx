@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { auth } from "./api/fetch";
 import { Redirect } from "react-router-dom";
 
+import { authUser } from "./store/actions/index";
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -41,12 +42,7 @@ class LoginForm extends React.Component {
         localStorage.setItem("user", result.username);
         let session = document.cookie.split(";")[0];
         localStorage.setItem("session", session);
-        this.props.dispatch({
-          type: "SET_CURRENT_USER",
-          payload: {
-            username: result.username
-          }
-        });
+        this.props.dispatch(authUser(result.username));
       } else {
         if (this.props.authType === "login") {
           this.setState({
