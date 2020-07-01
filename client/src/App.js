@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -8,40 +8,29 @@ import Loading from './LoadingScreen';
 
 import { loadPolls, authUser } from "./store/actions/index";
 
-
-class App extends React.Component {
-  componentDidMount() {
-    console.log(loadPolls);
+function App(props) {
+  useEffect(() => {
     fetch(`/poll/polls`)
       .then(response => response.json())
       .then(res => {
-        console.log(res);
-        this.props.dispatch(loadPolls(res));
+        props.dispatch(loadPolls(res));
     });
     if (localStorage.getItem("user")) {
       document.cookie = localStorage.getItem("session");
       const username = localStorage.getItem("user");
-      this.props.dispatch(authUser(username));
-      // this.props.dispatch({
-      //   type: "SET_CURRENT_USER",
-      //   payload: {
-      //     username: localStorage.getItem("user")
-      //   }
-      // });
+      props.dispatch(authUser(username));
     }
-  }
-  render() {
-    return (
-      <div className="App">
-        <Router>
-          <Header />
-          <main>
-           {this.props.polls === [] ? <Loading /> : <RouteViews />}
-          </main>
-        </Router>
-      </div>
-    );
-  }
+  }, [])
+  return (
+    <div className="App">
+      <Router>
+        <Header />
+        <main>
+         {props.polls === [] ? <Loading /> : <RouteViews />}
+        </main>
+      </Router>
+    </div>
+  );
 }
 
 
