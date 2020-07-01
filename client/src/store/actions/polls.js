@@ -1,8 +1,10 @@
 import { LOAD_POLLS, ADD_POLL } from "../actionTypes";
 
-const loadPolls = polls => ({
-  type: LOAD_POLLS,
-  polls
-});
+function loadPolls(polls) {
+  return {
+    type: LOAD_POLLS,
+    payload: polls
+  };
+};
 
 export { loadPolls };

@@ -6,23 +6,28 @@ import RouteViews from "./RouteViews";
 import Header from "./Header";
 import Loading from './LoadingScreen';
 
+import { loadPolls, authUser } from "./store/actions/index";
+
 
 class App extends React.Component {
   componentDidMount() {
+    console.log(loadPolls);
     fetch(`/poll/polls`)
       .then(response => response.json())
-      .then(res => this.props.dispatch({
-        type: "LOAD_POLLS",
-        payload: res
-      }));
+      .then(res => {
+        console.log(res);
+        this.props.dispatch(loadPolls(res));
+    });
     if (localStorage.getItem("user")) {
       document.cookie = localStorage.getItem("session");
-      this.props.dispatch({
-        type: "SET_CURRENT_USER",
-        payload: {
-          username: localStorage.getItem("user")
-        }
-      });
+      const username = localStorage.getItem("user");
+      this.props.dispatch(authUser(username));
+      // this.props.dispatch({
+      //   type: "SET_CURRENT_USER",
+      //   payload: {
+      //     username: localStorage.getItem("user")
+      //   }
+      // });
     }
   }
   render() {
