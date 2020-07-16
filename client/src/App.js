@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -10,10 +10,13 @@ import { loadPolls, authUser } from "./store/actions/index";
 import { getPolls } from "./api/fetch";
 
 function App(props) {
+  let [loading, setLoadging] = useState(false);
   useEffect(() => {
     async function getPosts(){
+      setLoadging(true);
       let res = await getPolls();
       props.dispatch(loadPolls(res));
+      setLoadging(false);
     }
     getPosts();
     if (localStorage.getItem("user")) {
@@ -27,7 +30,7 @@ function App(props) {
       <Router>
         <Header />
         <main>
-         {props.polls === [] ? <Loading /> : <RouteViews />}
+         {loading ? <Loading /> : <RouteViews />}
         </main>
       </Router>
     </div>

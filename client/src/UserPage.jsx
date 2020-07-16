@@ -30,12 +30,14 @@ function UserPage(props) {
   }, [props.username]);
   useEffect(() => {
     let pollList = [];
+    setLoading(true);
     if (userPolls.length > 0) {
       pollList = userPolls.map((poll, index) => {
         return <PollItem key={poll._id} poll={poll} />
       }
       );
     }
+    setLoading(false);
     setPolls(pollList);
   }, [userPolls]);
 
@@ -56,7 +58,7 @@ function UserPage(props) {
   if (props.username === "") {
     return <h1>You must be logged in to view this page</h1>;
   }
-  return loading ? <LoadingScreen /> : (
+  return (
     <div className="profile">
       <h2 className="text-center text--teal">My Account</h2>
       <Tab.Container defaultActiveKey="#polls">
@@ -71,6 +73,7 @@ function UserPage(props) {
           </ListGroup>
 
         </Col>
+        {loading && <LoadingScreen />}
         <Col>
           <Tab.Content>
             <Tab.Pane eventKey="#polls">
