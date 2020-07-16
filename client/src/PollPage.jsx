@@ -9,6 +9,7 @@ import Popup from "./Popup";
 
 import { interpolateColors } from "./utils/color-generator";
 import { loadPolls } from "./store/actions/index";
+import { vote } from "./api/fetch";
 
 function PollPage(props) {
   const { id } = useParams();
@@ -62,19 +63,7 @@ function PollPage(props) {
         </ListGroup.Item>)
     });
     async function handleChange(option) {
-      let res = await fetch(`/poll/${props.username}/polls/${id}`, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        cache: "default",
-        credentials: "include",
-        body: JSON.stringify({
-          "selectedOption": option
-        })
-      });
-      let ans = await res.json();
+      let ans = await vote(props.username, id, option);
       if (ans.success) {
         setSuccess(true);
         if (timeRemaining !== 60) {

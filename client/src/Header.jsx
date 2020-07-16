@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { logOut } from "./store/actions/index";
+import { logout } from "./api/fetch";
 
 class Header extends React.Component {
   constructor(props) {
@@ -12,16 +13,7 @@ class Header extends React.Component {
   }
   async handleLogOut() {
     const data = { username: this.props.username };
-    await fetch("/auth/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Cookie": document.cookie
-      },
-      cache: "default",
-      credentials: "include",
-      body: JSON.stringify(data)
-    });
+    await logout(data);
     this.props.dispatch(logOut());
     localStorage.clear();
     document.cookie = "";

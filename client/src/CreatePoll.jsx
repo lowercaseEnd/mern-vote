@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { loadPolls } from "./store/actions/index";
-import { createPoll } from "./api/fetch";
+import { createPoll, getPolls } from "./api/fetch";
 
 class CreatePollForm extends React.Component {
   constructor(props) {
@@ -42,9 +42,8 @@ class CreatePollForm extends React.Component {
     let ans = await createPoll(data);
     console.log(ans);
     if (ans.success) {
-      fetch(`/poll/polls`)
-        .then(response => response.json())
-        .then(res => this.props.dispatch(loadPolls(res)));
+      let polls = await getPolls();
+      this.props.dispatch(loadPolls(polls));
       this.setState({
         title: "",
         shortName: "",

@@ -7,12 +7,12 @@ import Header from "./Header";
 import Loading from './LoadingScreen';
 
 import { loadPolls, authUser } from "./store/actions/index";
+import { getPolls } from "./api/fetch";
 
 function App(props) {
   useEffect(() => {
     async function getPosts(){
-      let response = await fetch(`/poll/polls`)
-      let res = await response.json();
+      let res = await getPolls();
       props.dispatch(loadPolls(res));
     }
     getPosts();
