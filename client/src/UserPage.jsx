@@ -13,15 +13,14 @@ import { itemsOnPage, pages } from "./api/pagination";
 
 function UserPage(props) {
   let [userPolls, setUserPolls] = useState([]);
+  let [polls, setPolls] = useState([]);
   let [loading, setLoading] = useState(false);
   let [showPopup, setShowPopup] = useState(false);
-  let [polls, setPolls] = useState([]);
   //pagination
   let [currentPage, setCurrentPage] = useState(1);
   let [pollsPerPage, setPollsPerPage] = useState(5);
   //загрузить голсования созданные пользователем при загрузке страницы
   useEffect(() => {
-    console.log(props.username)
     if (props.username) {
       async function getPolls() {
         setLoading(true);

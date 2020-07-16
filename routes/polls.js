@@ -20,14 +20,12 @@ router
 router
   .route("/:user/polls")
   .get((req, res, next) => {
-    console.log(db.User.findOne({ username: req.params.user }).populate("polls"))
     db.User.findOne({ username: req.params.user })
       .populate("polls")
       .exec((err, user) => {
         if (err) {
           return next(err);
         }
-        console.log(user);
         res.type("json").send({
           success: true,
           message: "",
@@ -105,8 +103,6 @@ router
     const errors = validationResult(req);
     const { title, shortName, options } = req.body;
     const { sessionID } = req;
-    // console.log("User " + req.user);
-    // console.log("Ses " + JSON.stringify(req.session));
     if (!errors.isEmpty()) {
       const { param, msg } = errors.array()[0];
       return next({ param, msg });
@@ -136,7 +132,6 @@ router
         ],
         totalVotes: 1
       });
-      // console.log(poll)
       poll.save(err => {
         if (err) {
           return next(err);
@@ -169,7 +164,6 @@ router
   .post((req, res, next) => {
     const { body, params, sessionID } = req;
     const { selectedOption } = body;
-    console.log(params);
     const recentVote = 60 * 1000;//минута
     const updateComplete = (err, doc, timeRemaining = recentVote) => {
       res.type("json").send({
@@ -184,7 +178,6 @@ router
     db.Poll.find({ "_id": params.poll })
       .populate("createdBy", "username")
       .exec((err, polls) => {
-        console.log(polls);
         const poll = polls[0];
         if (err) {
           return next(err);
@@ -214,8 +207,6 @@ router
         }
 
         const options = JSON.parse(JSON.stringify(poll.options));
-        console.log(poll.options)
-        console.log(options)
         const optionNames = options.map(({ option }) => option);
         const optionIndex = optionNames.indexOf(selectedOption);
         if(optionIndex !== -1) {

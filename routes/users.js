@@ -45,7 +45,6 @@ router
           success: true,
           username: user.username
         });
-        console.log(`assign: ${req.user}`);
       })
     })(req, res, next)
   });
@@ -66,7 +65,6 @@ router
           username: user.username
         });
       }
-      console.log(`User: ${JSON.stringify(user)}`);
       //создать сессию с пользователем
       req.logIn(user, err => {
         if (err) {
@@ -78,7 +76,6 @@ router
           success: true,
           username: user.username
         });
-        console.log(`assign: ${req.user}`);
       })
     })(req, res, next)
   });
@@ -103,8 +100,6 @@ router
   .route("/user/delete")
   .delete((req, res, next) => {
     const { username } = req.body;
-    console.log("delete");
-    console.log(req.body);
     User.findOne({ username }).exec((err, user) => {
       if (err) {
         return next(err);
