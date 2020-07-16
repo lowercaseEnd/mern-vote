@@ -2,8 +2,8 @@
 async function auth(type, data) {
   let response = await fetch(`/auth/${type}`, {
     method: "POST",
-    headers: { 
-      "Content-Type": "application/json", 
+    headers: {
+      "Content-Type": "application/json",
     },
     cache: "default",
     credentials: "include",
@@ -51,7 +51,7 @@ async function logout(data) {
 }
 
 //проголосовать
-async function vote(username, id, option) {
+async function vote(username, id, data) {
   let res = await fetch(`/poll/${username}/polls/${id}`, {
     method: "POST",
     headers: {
@@ -60,12 +60,51 @@ async function vote(username, id, option) {
     },
     cache: "default",
     credentials: "include",
-    body: JSON.stringify({
-      "selectedOption": option
-    })
+    body: data
   });
   let ans = await res.json();
   return ans;
+}
+
+//удаление голосования
+async function deletePoll(data) {
+  console.log("deletePoll");
+  let res = await fetch(`/poll/delete`, {
+    method: "DELETE",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    },
+    cache: "default",
+    credentials: "include",
+    body: data
+  });
+  console.log("result");
+  let ans = await res.json();
+  return ans;
+}
+
+//получение голосований конкретного пользователя
+async function userPolls(username) {
+  let res = await fetch(`/poll/${username}/polls`);
+  let ans = await res.json();
+  return ans;
+}
+
+//удаление профиля
+async function deleteUser(data) {
+  let ans = await fetch(`/auth/user/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "default",
+      credentials: "include",
+      body: JSON.stringify(data)
+    });
+  let res = await ans.json();
+  return res;
 }
 
 export {
@@ -73,5 +112,8 @@ export {
   createPoll,
   getPolls,
   logout,
-  vote
+  vote,
+  deletePoll,
+  userPolls,
+  deleteUser
 };

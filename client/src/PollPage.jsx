@@ -9,7 +9,7 @@ import Popup from "./Popup";
 
 import { interpolateColors } from "./utils/color-generator";
 import { loadPolls } from "./store/actions/index";
-import { vote } from "./api/fetch";
+import { vote, deletePoll, getPolls } from "./api/fetch";
 
 function PollPage(props) {
   const { id } = useParams();
@@ -63,7 +63,10 @@ function PollPage(props) {
         </ListGroup.Item>)
     });
     async function handleChange(option) {
-      let ans = await vote(props.username, id, option);
+      let data = JSON.stringify({
+        "selectedOption": option
+      });
+      let ans = await vote(props.username, id, data);
       if (ans.success) {
         setSuccess(true);
         if (timeRemaining !== 60) {
@@ -85,25 +88,15 @@ function PollPage(props) {
     function togglePopup() {
       setShowPopup(!showPopup);
     }
-    async function deletePoll() {
-      let res = await fetch(`/poll/delete`, {
-        method: "DELETE",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        cache: "default",
-        credentials: "include",
-        body: JSON.stringify({
-          "id": currentPoll._id,
-          "username": props.username
-        })
+    async function deleteCurrentPoll() {
+      let data = JSON.stringify({
+        "id": currentPoll._id,
+        "username": props.username
       });
-      let ans = await res.json();
+      let ans = await deletePoll(data);
       if (ans.success) {
-        await fetch(`/poll/polls`)
-          .then(response => response.json())
-          .then(res => props.dispatch(loadPolls(res)));
+        let res = await getPolls();
+        props.dispatch(loadPolls(res));
       }
     }
     return (
@@ -127,7 +120,7 @@ function PollPage(props) {
           </ListGroup>
           {props.loggedIn &&
             <div className="text-center"><Button className="align-center" variant="danger" onClick={togglePopup}>Delete poll</Button></div>}
-          {showPopup && <Popup close={togglePopup} delete={deletePoll} />}
+          {showPopup && <Popup close={togglePopup} delete={deleteCurrentPoll} />}
         </div>
       </div>
     );

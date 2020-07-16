@@ -8,6 +8,7 @@ import Popup from "./Popup";
 import PollItem from "./PollItem";
 
 import { authUser } from "./store/actions/index";
+import { userPolls as getUserPolls, deleteUser } from "./api/fetch";
 
 function UserPage(props) {
   let [userPolls, setUserPolls] = useState([]);
@@ -20,8 +21,7 @@ function UserPage(props) {
     if (props.username) {
       async function getPolls() {
         setLoading(true);
-        let res = await fetch(`/poll/${props.username}/polls`);
-        let ans = await res.json();
+        let ans = await getUserPolls(props.username);
         setUserPolls(ans.polls);
         setLoading(false);
       }
@@ -46,17 +46,7 @@ function UserPage(props) {
     let data = {
       username: props.username
     }
-    let ans = await fetch(`/auth/user/delete`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "default",
-        credentials: "include",
-        body: JSON.stringify(data)
-      });
-    let res = await ans.json();
+    let res = await deleteUser(data);
     if (res.success) {
       props.dispatch(authUser(""));
       localStorage.clear();
