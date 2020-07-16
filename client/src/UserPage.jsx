@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { ListGroup, Button, Tab, Col } from "react-bootstrap";
+import { ListGroup, Button, Tab, Col, Pagination } from "react-bootstrap";
 
 import LoadingScreen from "./LoadingScreen";
 import deleteAllCookies from "./utils/cookies";
@@ -9,12 +9,16 @@ import PollItem from "./PollItem";
 
 import { authUser } from "./store/actions/index";
 import { userPolls as getUserPolls, deleteUser } from "./api/fetch";
+import { itemsOnPage, pages } from "./api/pagination";
 
 function UserPage(props) {
   let [userPolls, setUserPolls] = useState([]);
   let [loading, setLoading] = useState(false);
   let [showPopup, setShowPopup] = useState(false);
   let [polls, setPolls] = useState([]);
+  //pagination
+  let [currentPage, setCurrentPage] = useState(1);
+  let [pollsPerPage, setPollsPerPage] = useState(5);
   //загрузить голсования созданные пользователем при загрузке страницы
   useEffect(() => {
     console.log(props.username)
@@ -58,6 +62,13 @@ function UserPage(props) {
   if (props.username === "") {
     return <h1>You must be logged in to view this page</h1>;
   }
+  let data = {
+    currentPage,
+    itemsPerPage: pollsPerPage,
+    listOfItems: polls
+  };
+  const currentPolls = itemsOnPage(data);
+  const pageNumbers = pages(polls, pollsPerPage, currentPage, setCurrentPage);
   return (
     <div className="profile">
       <h2 className="text-center text--teal">My Account</h2>
@@ -78,8 +89,11 @@ function UserPage(props) {
           <Tab.Content>
             <Tab.Pane eventKey="#polls">
               <ListGroup variant="flush">
-                {polls}
+                {currentPolls}
               </ListGroup>
+              <div className="text-center">
+                <Pagination className="justify-content-center">{pageNumbers}</Pagination>
+              </div>
             </Tab.Pane>
             <Tab.Pane eventKey="#settings" className="text-center">
               <Button className="delete" onClick={togglePopup} variant="danger">Delete profile</Button>
