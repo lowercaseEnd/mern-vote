@@ -28,16 +28,7 @@ class LoginForm extends React.Component {
     try {
       const { username, password } = this.state;
       const data = { username, password };
-      let response = await fetch(`/auth/${this.props.authType}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "default",
-        credentials: "include",
-        body: JSON.stringify(data)
-      });
-      let result = await response.json();
+      let result = await auth(this.props.authType, data);
       if (result.success) {
         localStorage.setItem("user", result.username);
         let session = document.cookie.split(";")[0];

@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { loadPolls } from "./store/actions/index";
-
+import { createPoll } from "./api/fetch";
 
 class CreatePollForm extends React.Component {
   constructor(props) {
@@ -39,18 +39,7 @@ class CreatePollForm extends React.Component {
     event.preventDefault();
     const { title, shortName, options } = this.state;
     const data = { title, shortName, options };
-    let first = await fetch("/poll/create_poll", {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        // "Set-Cookie": document.cookie
-      },
-      cache: "default",
-      credentials: "include",
-      body: JSON.stringify(data)
-    });
-    let ans = await first.json();
+    let ans = await createPoll(data);
     console.log(ans);
     if (ans.success) {
       fetch(`/poll/polls`)
