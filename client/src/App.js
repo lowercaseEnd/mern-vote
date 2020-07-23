@@ -20,7 +20,7 @@ function App(props) {
     }
     getPosts();
     if (localStorage.getItem("user")) {
-      document.cookie = localStorage.getItem("session");
+      // document.cookie = localStorage.getItem("session");
       const username = localStorage.getItem("user");
       props.dispatch(authUser(username));
     }

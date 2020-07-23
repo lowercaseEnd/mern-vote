@@ -19,7 +19,7 @@ async function createPoll(data) {
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
-      // "Set-Cookie": document.cookie
+      "Set-Cookie": document.cookie.split(";")[0]
     },
     cache: "default",
     credentials: "include",
