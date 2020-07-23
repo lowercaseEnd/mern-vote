@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { ListGroup, Pagination, Button } from "react-bootstrap";
+import { ListGroup, Pagination } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import PollItem from "./PollItem";
 
-import { itemsOnPage, pages } from "./api/pagination";
+import { itemsOnPage, pages } from "./utils/pagination";
 
 function Polls(props) {
   //pagination
   let [currentPage, setCurrentPage] = useState(1);
   let [pollsPerPage, setPollsPerPage] = useState(5);
 
-  const pollList = props.polls.map((poll, index) => {
+  const pollList = props.polls.map(poll => {
     return <PollItem key={poll._id} poll={poll} />
   });
   let data = {

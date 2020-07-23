@@ -56,9 +56,9 @@ function PollPage(props) {
     };
     let options = currentPoll.options.map((option, index) => {
       return (
-        <ListGroup.Item>
+        <ListGroup.Item key={option._id}>
           <Form.Check type="radio" id={`radio-${index + 1}`} name="radioOption" onClick={() => { handleChange(option.option) }} inline />
-          <Form.Label class="float-right" htmlFor={`radio-${index + 1}`}>{option.option}</Form.Label>
+          <Form.Label className="float-right" htmlFor={`radio-${index + 1}`}>{option.option}</Form.Label>
           <p>Votes: {option.votes}</p>
         </ListGroup.Item>)
     });

@@ -9,7 +9,7 @@ import PollItem from "./PollItem";
 
 import { authUser } from "./store/actions/index";
 import { userPolls as getUserPolls, deleteUser } from "./api/fetch";
-import { itemsOnPage, pages } from "./api/pagination";
+import { itemsOnPage, pages } from "./utils/pagination";
 
 function UserPage(props) {
   let [userPolls, setUserPolls] = useState([]);

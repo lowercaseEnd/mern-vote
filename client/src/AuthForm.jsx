@@ -17,8 +17,8 @@ function LoginForm(props) {
     let result = await auth(props.authType, data);
     if (result.success) {
       localStorage.setItem("user", result.username);
-      let session = document.cookie.split(";")[0];
-      localStorage.setItem("session", session);
+      // let session = document.cookie.split(";")[0];
+      // localStorage.setItem("session", session);
       props.dispatch(authUser(result.username));
     } else {
       if (props.authType === "login") {
@@ -32,7 +32,7 @@ function LoginForm(props) {
   return (
     props.loggedIn ? <Redirect to="/" /> :
       <section className="text-center auth shadow">
-        <Form className="auth__form" onSubmit={(event) => handleSubmit(event)}>
+        <Form className="auth__form" onSubmit={event => handleSubmit(event)}>
           {error && <p className="alert alert-warning">{error}</p>}
           <Form.Group>
             <Form.Label>Username</Form.Label>

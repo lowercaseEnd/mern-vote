@@ -5,7 +5,7 @@ const initialPolls = {
 };
 
 const loadPosts = (state = initialPolls, action) => {
-  if (action.type === LOAD_POLLS) {
+  if (action.type === LOAD_POLLS || action.type === ADD_POLL) {
     return {
       ...state,
       polls: state.polls.concat(action.payload)
@@ -14,12 +14,4 @@ const loadPosts = (state = initialPolls, action) => {
   return state;
 }
 
-const addPost = (state = {}, action) => {
-  if (action.type === "ADD_POLL") {
-    return Object.assign({}, state, {
-      polls: state.polls.concat(action.payload)
-    });
-  }
-  return state;
-}
-export { addPost, loadPosts };
+export { loadPosts };

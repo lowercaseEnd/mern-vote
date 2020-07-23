@@ -1,7 +1,7 @@
 function deleteAllCookies() {
   let cookies = document.cookie.split(";");
 
-  for (var i = 0; i < cookies.length; i++) {
+  for (let i = 0; i < cookies.length; i++) {
     let cookie = cookies[i];
     let eqPos = cookie.indexOf("=");
     let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;

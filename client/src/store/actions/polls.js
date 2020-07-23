@@ -1,4 +1,4 @@
-import { LOAD_POLLS, ADD_POLL } from "../actionTypes";
+import { LOAD_POLLS } from "../actionTypes";
 
 function loadPolls(polls) {
   return {
