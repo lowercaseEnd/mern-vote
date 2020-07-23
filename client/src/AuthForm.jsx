@@ -31,7 +31,7 @@ function LoginForm(props) {
 
   return (
     props.loggedIn ? <Redirect to="/" /> :
-      <section className="text-center auth">
+      <section className="text-center auth shadow">
         <Form className="auth__form" onSubmit={(event) => handleSubmit(event)}>
           {error && <p className="alert alert-warning">{error}</p>}
           <Form.Group>
